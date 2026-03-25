@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Learn to build AI-powered Microsoft Power Platform solutions in 12 weeks. Master the foundations, then supercharge your development with Copilot, AI Builder, and Azure OpenAI — taught by Jerome Dawn, Senior Power Platform Developer." />
+  <title>NextGen PowerApps — AI-Powered Power Platform Development in 12 Weeks</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#0078D4',
+              dark: '#0F172A',
+              accent: '#00B4D8',
+              light: '#F8FAFC',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- STRIPE BUY BUTTON SCRIPT: Uncomment and add your script tag here -->
+  <!-- <script async src="https://js.stripe.com/v3/buy-button.js"></script> -->
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; color: #0F172A; background: #FFFFFF; }
+
+    #navbar { transition: box-shadow 0.3s ease; }
+    #navbar.scrolled { box-shadow: 0 2px 16px 0 rgba(0,0,0,0.10); }
+
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    .accordion-content { display: none; }
+    .accordion-content.open { display: block; }
+    .accordion-arrow { transition: transform 0.25s ease; }
+    .accordion-arrow.open { transform: rotate(180deg); }
+
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* App mockup */
+    .app-mockup {
+      background: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.14);
+      overflow: hidden;
+    }
+    .mockup-titlebar {
+      background: #0078D4;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mockup-sidebar {
+      background: #F0F6FF;
+      width: 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 0;
+      gap: 10px;
+    }
+    .mockup-nav-icon { width: 28px; height: 28px; border-radius: 6px; background: #0078D4; opacity: 0.7; }
+    .mockup-nav-icon.active { opacity: 1; }
+    .mockup-card {
+      border-radius: 6px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    .mockup-bar { height: 10px; border-radius: 4px; background: #CBD5E1; margin-bottom: 6px; }
+    .mockup-bar.blue { background: #0078D4; }
+    .mockup-bar.accent { background: #00B4D8; }
+    .mockup-bar.purple { background: #7C3AED; }
+    .mockup-btn {
+      background: #0078D4; color: white;
+      border-radius: 4px; padding: 5px 12px;
+      font-size: 11px; font-weight: 600;
+      display: inline-block; margin-top: 6px;
+    }
+    .mockup-ai-badge {
+      background: linear-gradient(90deg, #7C3AED, #0078D4);
+      color: white; border-radius: 4px;
+      padding: 3px 8px; font-size: 10px;
+      font-weight: 700; display: inline-block;
+    }
+
+    .pricing-card {
+      box-shadow: 0 0 0 2px #0078D4, 0 24px 60px rgba(0,120,212,0.14);
+    }
+
+    .testimonial-quote::before {
+      content: '\201C';
+      font-size: 4rem;
+      line-height: 0.8;
+      color: #0078D4;
+      opacity: 0.25;
+      font-family: Georgia, serif;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center;
+      background: #EFF6FF; color: #0078D4;
+      border: 1px solid #BFDBFE;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge.ai {
+      background: #F5F3FF; color: #7C3AED;
+      border-color: #DDD6FE;
+    }
+
+    .hero-bg {
+      background: linear-gradient(135deg, #0F172A 0%, #0F2D5A 60%, #0F172A 100%);
+    }
+
+    .cta-banner-bg {
+      background: linear-gradient(135deg, #0F172A 0%, #003A70 100%);
+    }
+
+    .proof-strip { background: #0F172A; }
+
+    .section-divider {
+      width: 48px; height: 4px;
+      background: linear-gradient(90deg, #0078D4, #00B4D8);
+      border-radius: 2px;
+      margin: 0 auto 1.5rem;
+    }
+
+    /* AI pill in curriculum */
+    .ai-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #F5F3FF; color: #7C3AED;
+      border: 1px solid #DDD6FE;
+      border-radius: 999px; padding: 2px 8px;
+      font-size: 0.7rem; font-weight: 700;
+      white-space: nowrap; margin-left: 8px;
+    }
+
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid #0078D4;
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-white text-brand-dark">
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white" role="navigation" aria-label="Main navigation">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+      <a href="#" class="flex items-center gap-2 font-extrabold text-xl text-brand-dark no-underline" aria-label="NextGen PowerApps home">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13 2L4 13H11L9 20L18 9H11L13 2Z" fill="#0078D4" stroke="#0078D4" stroke-width="1.2" stroke-linejoin="round"/>
+        </svg>
+        <span>NextGen <span class="text-brand-primary">PowerApps</span></span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#about" class="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">About</a>
+        <a href="#curriculum" class="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">Curriculum</a>
+        <a href="#pricing" class="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">Pricing</a>
+        <a href="#faq" class="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">FAQ</a>
+        <a href="#pricing" class="enroll-btn ml-2 bg-brand-primary text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-sm">
+          Enroll Now
+        </a>
+      </div>
+
+      <button id="hamburger-btn" class="md:hidden flex flex-col gap-1.5 p-2 rounded focus:outline-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="block w-6 h-0.5 bg-brand-dark transition-all" id="ham-line1"></span>
+        <span class="block w-6 h-0.5 bg-brand-dark transition-all" id="ham-line2"></span>
+        <span class="block w-6 h-0.5 bg-brand-dark transition-all" id="ham-line3"></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-slate-100 shadow-lg" role="menu">
+    <div class="px-4 py-4 flex flex-col gap-1">
+      <a href="#about" class="mobile-nav-link text-sm font-medium text-slate-700 py-2.5 px-3 rounded-lg hover:bg-slate-50" role="menuitem">About</a>
+      <a href="#curriculum" class="mobile-nav-link text-sm font-medium text-slate-700 py-2.5 px-3 rounded-lg hover:bg-slate-50" role="menuitem">Curriculum</a>
+      <a href="#pricing" class="mobile-nav-link text-sm font-medium text-slate-700 py-2.5 px-3 rounded-lg hover:bg-slate-50" role="menuitem">Pricing</a>
+      <a href="#faq" class="mobile-nav-link text-sm font-medium text-slate-700 py-2.5 px-3 rounded-lg hover:bg-slate-50" role="menuitem">FAQ</a>
+      <a href="#pricing" class="enroll-btn mobile-nav-link mt-2 bg-brand-primary text-white text-sm font-semibold px-4 py-3 rounded-lg text-center hover:bg-blue-700 transition-colors" role="menuitem">
+        Enroll Now — $497
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section id="hero" class="hero-bg pt-24 pb-16 md:pt-32 md:pb-24 min-h-screen flex items-center" aria-labelledby="hero-headline">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+      <div>
+        <div class="mb-5">
+          <span class="inline-flex items-center gap-2 bg-blue-900 bg-opacity-60 text-blue-200 text-xs font-semibold px-3 py-1.5 rounded-full border border-blue-700 border-opacity-50">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="#00B4D8" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="6" cy="6" r="6"/></svg>
+            Cohort enrollment open — Limited seats
+          </span>
+        </div>
+
+        <h1 id="hero-headline" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+          Build AI-Powered Power Platform Solutions in
+          <span class="text-brand-accent"> 12 Weeks</span>
+        </h1>
+
+        <p class="text-lg text-slate-300 leading-relaxed mb-4 max-w-xl">
+          Master the foundations first. Then supercharge everything with Copilot, AI Builder, and Azure OpenAI.
+        </p>
+        <p class="text-base text-slate-400 leading-relaxed mb-8 max-w-xl">
+          AI tools are only as good as the developer using them. This course teaches you the Power Platform fundamentals that make AI actually work — then shows you how to use it to build in half the time.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+          <a href="#pricing" class="enroll-btn inline-flex items-center justify-center gap-2 bg-brand-primary text-white font-bold text-base px-7 py-4 rounded-xl hover:bg-blue-600 active:bg-blue-800 transition-colors shadow-lg shadow-blue-900/30">
+            Enroll Now — $497
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#curriculum" class="inline-flex items-center justify-center gap-2 bg-transparent text-white font-semibold text-base px-7 py-4 rounded-xl border border-slate-500 hover:border-white hover:bg-white/5 transition-colors">
+            See the Curriculum
+          </a>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <span class="flex items-center gap-1.5 text-sm text-emerald-400 font-medium">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 7L5.5 10.5L12 3.5" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Foundations + AI — both
+          </span>
+          <span class="flex items-center gap-1.5 text-sm text-emerald-400 font-medium">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 7L5.5 10.5L12 3.5" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Project-Based Learning
+          </span>
+          <span class="flex items-center gap-1.5 text-sm text-emerald-400 font-medium">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 7L5.5 10.5L12 3.5" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Direct Slack Access to Jerome
+          </span>
+          <span class="flex items-center gap-1.5 text-sm text-emerald-400 font-medium">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 7L5.5 10.5L12 3.5" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Lifetime Access
+          </span>
+        </div>
+      </div>
+
+      <!-- App mockup with AI panel -->
+      <div class="flex justify-center lg:justify-end" aria-hidden="true">
+        <div class="app-mockup w-full max-w-sm">
+          <div class="mockup-titlebar">
+            <div class="mockup-dot bg-red-400"></div>
+            <div class="mockup-dot bg-yellow-400"></div>
+            <div class="mockup-dot bg-green-400"></div>
+            <span class="ml-3 text-white text-xs font-semibold opacity-90">Expense Approvals — Power Apps + AI</span>
+          </div>
+          <div class="flex" style="min-height:260px;">
+            <div class="mockup-sidebar flex-shrink-0">
+              <div class="mockup-nav-icon active"></div>
+              <div class="mockup-nav-icon" style="opacity:0.4;"></div>
+              <div class="mockup-nav-icon" style="opacity:0.4;"></div>
+              <div class="mockup-nav-icon" style="opacity:0.4;background:#7C3AED;"></div>
+            </div>
+            <div class="flex-1 p-4 bg-white">
+              <div class="mockup-bar blue" style="width:55%;"></div>
+              <div class="mockup-bar" style="width:35%;margin-bottom:10px;"></div>
+
+              <!-- AI suggestion card -->
+              <div style="background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:8px 10px;margin-bottom:8px;">
+                <span class="mockup-ai-badge">✦ Copilot</span>
+                <div class="mockup-bar purple" style="width:90%;margin-top:6px;margin-bottom:4px;height:8px;"></div>
+                <div class="mockup-bar" style="width:70%;height:8px;background:#C4B5FD;"></div>
+              </div>
+
+              <div class="mockup-card">
+                <div class="mockup-bar blue" style="width:60%;"></div>
+                <div class="mockup-bar" style="width:80%;"></div>
+                <span class="mockup-btn">Approve</span>
+              </div>
+
+              <div class="mockup-card">
+                <div class="mockup-bar accent" style="width:50%;"></div>
+                <div class="mockup-bar" style="width:75%;"></div>
+                <span class="mockup-btn" style="background:#00B4D8;">In Review</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SOCIAL PROOF BAR
+     ============================================================ -->
+<section class="proof-strip py-10 fade-in-section" aria-label="Course statistics">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x md:divide-slate-700">
+      <div class="text-center px-4">
+        <div class="text-3xl font-extrabold text-white mb-1">500+</div>
+        <div class="text-slate-400 text-sm font-medium">Students Trained</div>
+      </div>
+      <div class="text-center px-4">
+        <div class="text-3xl font-extrabold text-white mb-1">4.9 ★</div>
+        <div class="text-slate-400 text-sm font-medium">Average Rating</div>
+      </div>
+      <div class="text-center px-4">
+        <div class="text-3xl font-extrabold text-white mb-1">AI + Platform</div>
+        <div class="text-slate-400 text-sm font-medium">Not One Without the Other</div>
+      </div>
+      <div class="text-center px-4">
+        <div class="text-3xl font-extrabold text-white mb-1">Fortune 500</div>
+        <div class="text-slate-400 text-sm font-medium">Companies Use These Skills</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     WHAT YOU'LL LEARN
+     ============================================================ -->
+<section id="outcomes" class="py-20 bg-brand-light fade-in-section" aria-labelledby="outcomes-title">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="section-divider"></div>
+      <h2 id="outcomes-title" class="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-4">What You'll Walk Away With</h2>
+      <p class="text-slate-500 text-lg max-w-2xl mx-auto">Six job-ready skills built through projects — the foundations that make AI tools actually deliver.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+        <div class="text-4xl mb-4" aria-hidden="true">🏗️</div>
+        <h3 class="font-bold text-lg text-brand-dark mb-2">Build Canvas Apps from Scratch</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">Forms, galleries, navigation, offline mode — then use Copilot to scaffold and iterate 10x faster once you understand what it's building.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+        <div class="text-4xl mb-4" aria-hidden="true">⚡</div>
+        <h3 class="font-bold text-lg text-brand-dark mb-2">Automate Anything with Power Automate</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">Approvals, notifications, API calls — plus AI Builder actions for document processing, sentiment analysis, and content classification inside your flows.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+        <div class="text-4xl mb-4" aria-hidden="true">🗄️</div>
+        <h3 class="font-bold text-lg text-brand-dark mb-2">Master Dataverse</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">Tables, relationships, security roles, business rules — the data foundation that every AI feature in the platform is built on top of.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+        <div class="text-4xl mb-4" aria-hidden="true">🔗</div>
+        <h3 class="font-bold text-lg text-brand-dark mb-2">Integrate with the Microsoft Stack</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">SharePoint, Teams, Azure, and external APIs — including Azure OpenAI via custom connectors to bring GPT-powered features into your apps.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 border-2 border-violet-200 bg-violet-50 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+        <div class="text-4xl mb-4" aria-hidden="true">🤖</div>
+        <h3 class="font-bold text-lg text-brand-dark mb-2">Supercharge Development with AI</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">Copilot in Power Apps and Automate, AI Builder models, GPT-powered flows, and prompt engineering — build features in hours that used to take days.</p>
+        <span class="inline-block mt-3 text-xs font-bold text-violet-700 bg-violet-100 border border-violet-200 px-2 py-0.5 rounded-full">Dedicated module — Week 10</span>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200">
+        <div class="text-4xl mb-4" aria-hidden="true">💼</div>
+        <h3 class="font-bold text-lg text-brand-dark mb-2">Think Like a Consultant</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">Architecture decisions, client communication, pricing — how to position AI-enhanced Power Platform work and charge accordingly.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     WHY FOUNDATIONS FIRST — AI DIFFERENTIATOR
+     ============================================================ -->
+<section class="py-16 bg-white fade-in-section" aria-label="Why foundations matter for AI">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-3xl border-2 border-slate-100 bg-gradient-to-br from-slate-50 to-blue-50 p-8 sm:p-12">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <span class="inline-flex items-center gap-2 text-xs font-bold text-violet-700 bg-violet-100 border border-violet-200 px-3 py-1.5 rounded-full mb-4">
+            ✦ Jerome's Core Thesis
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-dark mb-4 leading-tight">
+            AI is only as good as the developer behind it.
+          </h2>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            Copilot can scaffold a Canvas App in seconds. But if you don't understand delegation, it'll generate an app that breaks at 500 records. AI Builder can extract data from invoices — but if you don't know how to model that data in Dataverse, you can't do anything useful with it.
+          </p>
+          <p class="text-slate-600 leading-relaxed">
+            This course teaches Power Platform the right way — foundations first, AI second. By the time you reach Week 10, you'll know exactly what the AI is doing, why it works, and how to fix it when it doesn't.
+          </p>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-start gap-4 bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+            <span class="text-2xl flex-shrink-0" aria-hidden="true">❌</span>
+            <div>
+              <p class="font-semibold text-sm text-brand-dark mb-1">AI-first without foundations</p>
+              <p class="text-slate-500 text-sm">Generates code you can't debug, apps that break at scale, flows with no error handling. You're dependent on the AI to fix what the AI broke.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 bg-white rounded-xl p-4 border-2 border-brand-primary shadow-sm">
+            <span class="text-2xl flex-shrink-0" aria-hidden="true">✅</span>
+            <div>
+              <p class="font-semibold text-sm text-brand-dark mb-1">Foundations + AI (this course)</p>
+              <p class="text-slate-500 text-sm">You direct the AI with intent. You review its output critically. You ship faster and you know it works — because you built the same thing by hand first.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     WHO THIS IS FOR
+     ============================================================ -->
+<section id="who" class="py-20 bg-brand-light fade-in-section" aria-labelledby="who-title">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="section-divider"></div>
+      <h2 id="who-title" class="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-4">Who This Is For</h2>
+      <p class="text-slate-500 text-lg max-w-2xl mx-auto">Three types of people ready to take Power Platform — and AI — seriously.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+
+      <div class="rounded-2xl border-2 border-brand-primary bg-blue-50 p-7">
+        <div class="w-12 h-12 rounded-full bg-brand-primary flex items-center justify-center text-white text-xl font-bold mb-4" aria-hidden="true">1</div>
+        <h3 class="font-bold text-xl text-brand-dark mb-3">The Career Changer</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">IT professionals, admins, and analysts who want to move into development. The combination of Power Platform + AI skills is one of the fastest paths into a developer role in the Microsoft ecosystem right now.</p>
+      </div>
+
+      <div class="rounded-2xl border-2 border-slate-200 bg-slate-50 p-7">
+        <div class="w-12 h-12 rounded-full bg-brand-dark flex items-center justify-center text-white text-xl font-bold mb-4" aria-hidden="true">2</div>
+        <h3 class="font-bold text-xl text-brand-dark mb-3">The Power User Who Wants More</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">You've built basic apps but you're hitting walls. You've heard Copilot can help but you're not sure how — or you've tried it and the output is wrong and you don't know why. This course fixes both problems.</p>
+      </div>
+
+      <div class="rounded-2xl border-2 border-slate-200 bg-slate-50 p-7">
+        <div class="w-12 h-12 rounded-full bg-brand-accent flex items-center justify-center text-white text-xl font-bold mb-4" aria-hidden="true">3</div>
+        <h3 class="font-bold text-xl text-brand-dark mb-3">The Consultant Building Their Practice</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">You're already delivering Power Platform work and want to add AI capabilities to your engagements. AI-enhanced solutions command higher rates — this course teaches you how to build and sell them.</p>
+      </div>
+
+    </div>
+
+    <div class="max-w-2xl mx-auto bg-white border border-slate-200 rounded-2xl p-7">
+      <h3 class="font-bold text-lg text-brand-dark mb-4">This is NOT for you if…</h3>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3 text-slate-600 text-sm">
+          <span class="text-red-400 font-bold text-base mt-0.5 flex-shrink-0">✕</span>
+          You want to skip the fundamentals and just prompt your way to a working app. That shortcut doesn't exist — and this course won't pretend it does.
+        </li>
+        <li class="flex items-start gap-3 text-slate-600 text-sm">
+          <span class="text-red-400 font-bold text-base mt-0.5 flex-shrink-0">✕</span>
+          You're looking for a passive "watch and forget" course. Every week has a hands-on deliverable — expect to build things.
+        </li>
+        <li class="flex items-start gap-3 text-slate-600 text-sm">
+          <span class="text-red-400 font-bold text-base mt-0.5 flex-shrink-0">✕</span>
+          You don't have access to a Microsoft 365 tenant. You'll need a free developer tenant (M365 Dev Program) to follow along.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     CURRICULUM — 12-WEEK ACCORDION
+     ============================================================ -->
+<section id="curriculum" class="py-20 bg-white fade-in-section" aria-labelledby="curriculum-title">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="section-divider"></div>
+      <h2 id="curriculum-title" class="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-4">The 12-Week Roadmap</h2>
+      <p class="text-slate-500 text-lg">Weeks 1–9: master the platform. Week 10: unlock AI. Weeks 11–12: ship production-ready.</p>
+    </div>
+
+    <div class="space-y-3" id="curriculum-accordion" role="list">
+
+      <!-- Week 1 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">1</span>
+            <span class="font-semibold text-brand-dark">Power Platform Foundations</span>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Environment setup, licensing, tenant configuration</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Understanding the platform: Power Apps, Automate, Pages, Dataverse, BI — and where AI fits into each</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Your first Canvas App in 60 minutes</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 2 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">2</span>
+            <span class="font-semibold text-brand-dark">Canvas App Architecture</span>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Screens, navigation, App.Formulas</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Data sources: SharePoint vs Dataverse — when to use what</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Collections, variables, context variables</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 3 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">3</span>
+            <span class="font-semibold text-brand-dark">Forms, Galleries &amp; UX</span>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> EditForm, DisplayForm, Gallery controls</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Delegation — the #1 mistake beginners (and Copilot) make</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Building a real CRUD app end to end</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 4 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">4</span>
+            <div class="flex items-center flex-wrap gap-1">
+              <span class="font-semibold text-brand-dark">Advanced Canvas Patterns</span>
+              <span class="ai-pill">✦ AI intro</span>
+            </div>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Reusable components</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Named formulas and performance optimization</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Error handling and user feedback</li>
+            <li class="flex items-start gap-2"><span class="text-violet-600 mt-1 flex-shrink-0 font-bold">✦</span> <span><strong class="text-violet-700">Copilot in Power Apps</strong> — how to use it effectively, review its output critically, and override it when it's wrong</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 5 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">5</span>
+            <span class="font-semibold text-brand-dark">Power Automate Foundations</span>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Triggers, actions, connectors</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Automated vs Instant vs Scheduled flows</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Building your first approval flow</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 6 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">6</span>
+            <div class="flex items-center flex-wrap gap-1">
+              <span class="font-semibold text-brand-dark">Advanced Power Automate</span>
+              <span class="ai-pill">✦ AI intro</span>
+            </div>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> HTTP actions and external API calls</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Error handling, scope, and retry logic</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Child flows and modular design</li>
+            <li class="flex items-start gap-2"><span class="text-violet-600 mt-1 flex-shrink-0 font-bold">✦</span> <span><strong class="text-violet-700">AI-assisted flow building</strong> — using Copilot in Power Automate to describe and generate flows, then hardening them for production</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 7 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-accent text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">7</span>
+            <span class="font-semibold text-brand-dark">Dataverse Deep Dive</span>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Tables, columns, relationships, lookups</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Security roles and column-level security</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Business rules and calculated columns</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 8 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-accent text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">8</span>
+            <span class="font-semibold text-brand-dark">SharePoint &amp; Teams Integration</span>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> SharePoint as a data source — limits and best practices</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Embedding apps in Teams</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Adaptive Cards and Teams notifications</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 9 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-600 text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">9</span>
+            <div class="flex items-center flex-wrap gap-1">
+              <span class="font-semibold text-brand-dark">Azure Integrations</span>
+              <span class="ai-pill">✦ AI intro</span>
+            </div>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Azure Functions as a backend</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Connecting to SQL, Service Bus, Key Vault</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Custom connectors</li>
+            <li class="flex items-start gap-2"><span class="text-violet-600 mt-1 flex-shrink-0 font-bold">✦</span> <span><strong class="text-violet-700">Azure OpenAI via custom connector</strong> — call GPT models directly from Power Apps and Power Automate (preview of Week 10)</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 10 — AI DEDICATED MODULE -->
+      <div class="accordion-item bg-white rounded-xl border-2 border-violet-300 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-violet-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full text-white text-xs font-bold flex items-center justify-center" style="background:linear-gradient(135deg,#7C3AED,#0078D4)" aria-hidden="true">10</span>
+            <div>
+              <div class="flex items-center flex-wrap gap-2">
+                <span class="font-bold text-brand-dark">AI in Power Platform</span>
+                <span class="inline-flex items-center gap-1 text-xs font-bold text-violet-700 bg-violet-100 border border-violet-200 px-2 py-0.5 rounded-full">✦ Dedicated AI Module</span>
+              </div>
+            </div>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-violet-100">
+          <p class="mt-4 text-sm text-slate-500 italic mb-4">Everything in weeks 1–9 was building toward this. Now you deploy it with AI.</p>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-violet-600 mt-1 flex-shrink-0 font-bold">✦</span> <strong>Copilot in Power Apps</strong> — generate screens, formulas, and data models; understand what it gets right and where it fails</li>
+            <li class="flex items-start gap-2"><span class="text-violet-600 mt-1 flex-shrink-0 font-bold">✦</span> <strong>AI Builder deep dive</strong> — document processing (invoices, receipts, forms), object detection, text recognition, prediction models</li>
+            <li class="flex items-start gap-2"><span class="text-violet-600 mt-1 flex-shrink-0 font-bold">✦</span> <strong>AI-powered flows</strong> — sentiment analysis, content classification, entity extraction inside Power Automate</li>
+            <li class="flex items-start gap-2"><span class="text-violet-600 mt-1 flex-shrink-0 font-bold">✦</span> <strong>Azure OpenAI integration</strong> — call GPT-4 from Power Apps and Automate, build chat interfaces, automate content generation</li>
+            <li class="flex items-start gap-2"><span class="text-violet-600 mt-1 flex-shrink-0 font-bold">✦</span> <strong>Prompt engineering for the Power Platform</strong> — how to write prompts that produce usable output, not hallucinated formulas</li>
+            <li class="flex items-start gap-2"><span class="text-violet-600 mt-1 flex-shrink-0 font-bold">✦</span> <strong>Copilot Studio</strong> — build conversational agents that connect to your Power Platform data</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 11 -->
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-dark text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">11</span>
+            <span class="font-semibold text-brand-dark">Model-Driven Apps &amp; ALM</span>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> When to use model-driven vs canvas — and how to combine them</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Views, forms, dashboards, business process flows</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Solutions — managed vs unmanaged</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Environments strategy: dev, test, prod</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Azure DevOps pipelines for Power Platform</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Week 12 -->
+      <div class="accordion-item bg-white rounded-xl border-2 border-brand-primary overflow-hidden" role="listitem">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-blue-50 transition-colors" aria-expanded="false">
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">12</span>
+            <div>
+              <span class="font-bold text-brand-dark">AI-Powered Capstone + Consulting Mindset</span>
+              <span class="ml-2 text-xs font-semibold text-brand-primary bg-blue-100 px-2 py-0.5 rounded-full">Final Week</span>
+            </div>
+          </div>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-blue-100">
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Build and present a complete AI-powered business solution using everything from the course</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Scoping, estimating, and pricing AI-enhanced Power Platform engagements</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> How to position yourself as an AI + Power Platform specialist — not just another developer</li>
+            <li class="flex items-start gap-2"><span class="text-brand-primary mt-1 flex-shrink-0">→</span> Building your portfolio and getting your first client</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /accordion -->
+  </div>
+</section>
+
+
+<!-- ============================================================
+     ABOUT THE INSTRUCTOR
+     ============================================================ -->
+<section id="about" class="py-20 bg-brand-light fade-in-section" aria-labelledby="about-title">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="section-divider"></div>
+      <h2 id="about-title" class="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-4">Your Instructor</h2>
+    </div>
+
+    <div class="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-14">
+
+      <!-- Photo placeholder -->
+      <div class="flex-shrink-0 flex flex-col items-center gap-4">
+        <!-- PHOTO PLACEHOLDER: Replace this div with an <img> tag once you have a photo -->
+        <!-- <img src="jerome-dawn.jpg" alt="Jerome Dawn — Senior Power Platform Developer" class="w-40 h-40 rounded-full object-cover border-4 border-brand-primary shadow-lg" /> -->
+        <div class="w-40 h-40 rounded-full bg-brand-primary flex items-center justify-center text-white text-5xl font-black shadow-lg border-4 border-blue-200" aria-label="Jerome Dawn initials placeholder">
+          JD
+        </div>
+        <div class="flex flex-wrap gap-2 justify-center max-w-xs">
+          <span class="badge">Power Platform</span>
+          <span class="badge">Azure</span>
+          <span class="badge">SharePoint</span>
+          <span class="badge">Dataverse</span>
+          <span class="badge">Power Automate</span>
+          <span class="badge ai">AI Builder</span>
+          <span class="badge ai">Copilot Studio</span>
+          <span class="badge ai">Azure OpenAI</span>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-extrabold text-brand-dark mb-1">Jerome Dawn</h3>
+        <p class="text-brand-primary font-semibold mb-5">Senior Power Platform Developer | Founder, NextGen PowerApps</p>
+        <p class="text-slate-600 leading-relaxed mb-4">
+          Jerome has spent years building enterprise-grade Power Platform solutions for Fortune 500 clients across finance, energy, and healthcare. He's architected apps used by thousands of employees, designed approval workflows that replaced legacy systems, and integrated Power Platform with Azure, SharePoint, and external APIs at scale.
+        </p>
+        <p class="text-slate-600 leading-relaxed mb-4">
+          As AI capabilities entered the Power Platform, Jerome was using them on real client projects — not demos. He's built AI Builder document processing pipelines, integrated Azure OpenAI into production Power Apps, and used Copilot to accelerate delivery on engagements where every hour counted.
+        </p>
+        <p class="text-slate-600 leading-relaxed">
+          He built NextGen PowerApps to teach what courses and certifications leave out: the real-world skills, the AI tools that actually matter, and the consulting mindset that turns technical ability into a career or a business.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     PRICING
+     ============================================================ -->
+<section id="pricing" class="py-20 bg-white fade-in-section" aria-labelledby="pricing-title">
+  <div class="max-w-lg mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <div class="section-divider"></div>
+      <h2 id="pricing-title" class="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-4">Simple, One-Time Pricing</h2>
+      <p class="text-slate-500 text-lg">No subscriptions. No upsells. Everything included.</p>
+    </div>
+
+    <div class="pricing-card bg-white rounded-3xl p-8 sm:p-10">
+      <div class="text-center mb-8">
+        <div class="flex items-center justify-center gap-3 mb-1">
+          <span class="text-5xl font-black text-brand-dark">$497</span>
+          <span class="text-2xl font-bold text-slate-300 line-through">$997</span>
+        </div>
+        <p class="text-slate-500 text-sm font-medium">One-time payment. Lifetime access.</p>
+        <div class="mt-3 inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-emerald-200">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 6L4.5 8.5L10 3" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Save $500 — Limited time
+        </div>
+      </div>
+
+      <ul class="space-y-3 mb-8">
+        <li class="flex items-start gap-3 text-sm text-slate-700">
+          <span class="text-emerald-500 font-bold text-base mt-0.5 flex-shrink-0">✅</span>
+          12 weeks of structured video lessons — foundations through AI
+        </li>
+        <li class="flex items-start gap-3 text-sm text-slate-700">
+          <span class="text-emerald-500 font-bold text-base mt-0.5 flex-shrink-0">✅</span>
+          Downloadable project files and templates
+        </li>
+        <li class="flex items-start gap-3 text-sm text-slate-700">
+          <span class="text-emerald-500 font-bold text-base mt-0.5 flex-shrink-0">✅</span>
+          Private Slack community with direct access to Jerome
+        </li>
+        <li class="flex items-start gap-3 text-sm text-slate-700">
+          <span class="text-emerald-500 font-bold text-base mt-0.5 flex-shrink-0">✅</span>
+          Weekly live Q&amp;A calls (recorded)
+        </li>
+        <li class="flex items-start gap-3 text-sm text-slate-700">
+          <span class="text-emerald-500 font-bold text-base mt-0.5 flex-shrink-0">✅</span>
+          Certificate of Completion
+        </li>
+        <li class="flex items-start gap-3 text-sm text-slate-700">
+          <span class="text-emerald-500 font-bold text-base mt-0.5 flex-shrink-0">✅</span>
+          Lifetime access + all future updates (AI moves fast — updates are included)
+        </li>
+      </ul>
+
+      <a href="#pricing" class="enroll-btn block w-full text-center bg-brand-primary text-white font-bold text-base px-6 py-4 rounded-xl hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-lg shadow-blue-200 mb-4">
+        Enroll Now — $497
+      </a>
+
+      <p class="text-center text-slate-400 text-xs mb-6">
+        🔒 Secure checkout via Stripe. 30-day money-back guarantee.
+      </p>
+
+      <!-- ============================================================
+           STRIPE BUY BUTTON: Replace this comment with your Stripe Buy Button embed code
+           Get your embed code from: https://dashboard.stripe.com/payment-links
+           It will look like: <stripe-buy-button buy-button-id="..." publishable-key="..."></stripe-buy-button>
+           Add this script tag to the <head>: <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+           ============================================================ -->
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     TESTIMONIALS
+     ============================================================ -->
+<section id="testimonials" class="py-20 bg-brand-light fade-in-section" aria-labelledby="testimonials-title">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="section-divider"></div>
+      <h2 id="testimonials-title" class="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-4">What Students Are Saying</h2>
+      <!-- PLACEHOLDER NOTE: Replace the testimonials below with real student quotes before launch -->
+      <p class="text-slate-500 text-sm italic">Placeholder testimonials — replace with real student quotes before launch.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="bg-white rounded-2xl p-7 border border-slate-100">
+        <div class="flex mb-3" aria-label="5 out of 5 stars">
+          <span class="text-yellow-400 text-lg" aria-hidden="true">★★★★★</span>
+        </div>
+        <div class="testimonial-quote"></div>
+        <p class="text-slate-700 text-sm leading-relaxed mt-2 mb-5">
+          "I tried using Copilot before taking this course and had no idea why it kept generating broken formulas. After week 3 I understood delegation, and suddenly Copilot's output actually made sense. Now I use it every day and I know exactly when to trust it and when to override it."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-brand-primary flex items-center justify-center text-white text-sm font-bold flex-shrink-0" aria-hidden="true">SM</div>
+          <div>
+            <p class="font-semibold text-sm text-brand-dark">Sarah M.</p>
+            <p class="text-slate-500 text-xs">Business Analyst → Power Platform Developer</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-7 border border-slate-100">
+        <div class="flex mb-3" aria-label="5 out of 5 stars">
+          <span class="text-yellow-400 text-lg" aria-hidden="true">★★★★★</span>
+        </div>
+        <div class="testimonial-quote"></div>
+        <p class="text-slate-700 text-sm leading-relaxed mt-2 mb-5">
+          "The AI Builder module alone changed what I can offer clients. I built an invoice processing flow in a day that would have taken a week of manual work. Jerome doesn't just show you the feature — he shows you how to design the data model that makes it actually useful."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white text-sm font-bold flex-shrink-0" aria-hidden="true">DK</div>
+          <div>
+            <p class="font-semibold text-sm text-brand-dark">David K.</p>
+            <p class="text-slate-500 text-xs">IT Consultant, Independent</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-7 border border-slate-100">
+        <div class="flex mb-3" aria-label="5 out of 5 stars">
+          <span class="text-yellow-400 text-lg" aria-hidden="true">★★★★★</span>
+        </div>
+        <div class="testimonial-quote"></div>
+        <p class="text-slate-700 text-sm leading-relaxed mt-2 mb-5">
+          "I kept seeing 'AI-powered' in job descriptions and had no idea what it meant in a Power Platform context. This course is the only one I found that actually teaches you the AI tools properly — not as an add-on, but as something you build toward. Got a developer title two months after finishing."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-brand-accent flex items-center justify-center text-white text-sm font-bold flex-shrink-0" aria-hidden="true">PR</div>
+          <div>
+            <p class="font-semibold text-sm text-brand-dark">Priya R.</p>
+            <p class="text-slate-500 text-xs">Power User turned Power Platform Developer</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section id="faq" class="py-20 bg-white fade-in-section" aria-labelledby="faq-title">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <div class="section-divider"></div>
+      <h2 id="faq-title" class="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-4">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="space-y-3" id="faq-accordion">
+
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <span class="font-semibold text-brand-dark pr-4">Do I need coding experience?</span>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <p class="mt-4 text-sm text-slate-600 leading-relaxed">No. Power Platform uses a low-code approach — you'll use formulas and logic, but not traditional programming languages. If you can use Excel, you have everything you need to start. The AI tools in the course actually make certain things easier for non-coders — but only if you understand the fundamentals first.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <span class="font-semibold text-brand-dark pr-4">How much time per week does this require?</span>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <p class="mt-4 text-sm text-slate-600 leading-relaxed">Plan for 5–8 hours per week. This includes video lessons (2–3 hrs), hands-on project work (2–3 hrs), and the live Q&amp;A call (1 hr). The pace is deliberately achievable for working professionals.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <span class="font-semibold text-brand-dark pr-4">What if I fall behind?</span>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <p class="mt-4 text-sm text-slate-600 leading-relaxed">No problem. You have lifetime access to all content, so you can go at your own pace. Q&amp;A calls are recorded if you miss them. The Slack community is active and Jerome checks in regularly.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <span class="font-semibold text-brand-dark pr-4">Is this for Canvas Apps, Model-Driven, or both?</span>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <p class="mt-4 text-sm text-slate-600 leading-relaxed">Both. The course is weighted toward Canvas Apps (weeks 1–4) because that's where most real-world custom development happens. Model-Driven Apps are covered in week 11, with a focus on when to use each type and how to combine them. The AI module in week 10 covers Copilot features available in both.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <span class="font-semibold text-brand-dark pr-4">Do I get access to Jerome directly?</span>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <p class="mt-4 text-sm text-slate-600 leading-relaxed">Yes. You get access to the private Slack community where Jerome is active, plus weekly live Q&amp;A calls. This is not a course where you submit a support ticket and wait 5 days for a reply from a TA.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <span class="font-semibold text-brand-dark pr-4">What if I want a refund?</span>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <p class="mt-4 text-sm text-slate-600 leading-relaxed">There's a 30-day money-back guarantee. If you complete the first four weeks and feel the course isn't delivering value, email jerome@nextgenpowerapps.com and you'll receive a full refund — no questions asked.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <span class="font-semibold text-brand-dark pr-4">Will this help me get certified?</span>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <p class="mt-4 text-sm text-slate-600 leading-relaxed">This course will build the deep practical knowledge that makes certifications much easier to pass — covering material tested in PL-100 and PL-200 across multiple modules. It is not a certification prep course. It's a skills course. Real skills lead to certifications, not the other way around.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <button class="accordion-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors" aria-expanded="false">
+          <span class="font-semibold text-brand-dark pr-4">Is this course kept up to date — especially the AI content?</span>
+          <svg class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="accordion-content px-6 pb-5 border-t border-slate-100">
+          <p class="mt-4 text-sm text-slate-600 leading-relaxed">Yes — and this matters most for the AI content. Microsoft releases updates to Copilot, AI Builder, and Copilot Studio frequently. Jerome actively monitors these changes, uses them on real client projects, and updates course content when there are meaningful additions. Your lifetime access includes all updates at no extra cost.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FINAL CTA BANNER
+     ============================================================ -->
+<section class="cta-banner-bg py-20 fade-in-section" aria-labelledby="cta-title">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 id="cta-title" class="text-3xl sm:text-5xl font-extrabold text-white mb-5 leading-tight">
+      Ready to become an AI-powered<br />Power Platform developer?
+    </h2>
+    <p class="text-slate-300 text-lg mb-10">Join 500+ students who've already built the foundation — and the future.</p>
+    <a href="#pricing" class="enroll-btn inline-flex items-center justify-center gap-2 bg-brand-primary text-white font-bold text-lg px-10 py-5 rounded-xl hover:bg-blue-500 active:bg-blue-700 transition-colors shadow-xl shadow-blue-900/40">
+      Enroll Now — $497
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3.75 9H14.25M14.25 9L10.5 5.25M14.25 9L10.5 12.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <p class="mt-5 text-slate-400 text-sm">🔒 30-day money-back guarantee · Lifetime access · Updates included</p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="bg-brand-dark py-12" role="contentinfo">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+
+      <div class="text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-2 mb-2">
+          <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M13 2L4 13H11L9 20L18 9H11L13 2Z" fill="#0078D4" stroke="#0078D4" stroke-width="1.2" stroke-linejoin="round"/>
+          </svg>
+          <span class="font-extrabold text-lg text-white">NextGen <span class="text-brand-primary">PowerApps</span></span>
+        </div>
+        <p class="text-slate-400 text-sm max-w-xs">Power Platform foundations + AI — built for developers who want to ship faster and charge more.</p>
+        <p class="text-slate-500 text-sm mt-3">
+          <a href="mailto:jerome@nextgenpowerapps.com" class="hover:text-slate-300 transition-colors">jerome@nextgenpowerapps.com</a>
+        </p>
+      </div>
+
+      <div class="flex flex-col items-center md:items-end gap-3">
+        <div class="flex flex-wrap justify-center md:justify-end gap-5">
+          <!-- PLACEHOLDER: Add real privacy policy, terms, and contact pages -->
+          <a href="#" class="text-slate-400 text-sm hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" class="text-slate-400 text-sm hover:text-white transition-colors">Terms</a>
+          <a href="mailto:jerome@nextgenpowerapps.com" class="text-slate-400 text-sm hover:text-white transition-colors">Contact</a>
+        </div>
+        <p class="text-slate-500 text-xs text-center md:text-right">
+          &copy; 2026 NextGen PowerApps. All rights reserved.<br />
+          Built on Microsoft Power Platform + AI ⚡
+        </p>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     JAVASCRIPT — ALL INLINE
+     ============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Sticky nav shadow ─────────────────────────────────── */
+  var navbar = document.getElementById('navbar');
+  function handleScroll() {
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
+  /* ── Mobile hamburger menu ─────────────────────────────── */
+  var hamburgerBtn = document.getElementById('hamburger-btn');
+  var mobileMenu = document.getElementById('mobile-menu');
+  var hamLine1 = document.getElementById('ham-line1');
+  var hamLine2 = document.getElementById('ham-line2');
+  var hamLine3 = document.getElementById('ham-line3');
+  var menuOpen = false;
+
+  function openMenu() {
+    menuOpen = true;
+    mobileMenu.classList.add('open');
+    hamburgerBtn.setAttribute('aria-expanded', 'true');
+    hamLine1.style.transform = 'translateY(8px) rotate(45deg)';
+    hamLine2.style.opacity = '0';
+    hamLine3.style.transform = 'translateY(-8px) rotate(-45deg)';
+  }
+
+  function closeMenu() {
+    menuOpen = false;
+    mobileMenu.classList.remove('open');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+    hamLine1.style.transform = '';
+    hamLine2.style.opacity = '';
+    hamLine3.style.transform = '';
+  }
+
+  hamburgerBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (menuOpen) { closeMenu(); } else { openMenu(); }
+  });
+
+  document.addEventListener('click', function (e) {
+    if (menuOpen && !mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  var mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  mobileNavLinks.forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  /* ── Smooth scroll for all anchor links ────────────────── */
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
+      var targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      var target = document.querySelector(targetId);
+      if (!target) return;
+      e.preventDefault();
+      var navHeight = navbar ? navbar.offsetHeight : 0;
+      var targetTop = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 8;
+      window.scrollTo({ top: targetTop, behavior: 'smooth' });
+    });
+  });
+
+  /* ── Accordion (shared logic) ───────────────────────────── */
+  function initAccordion(accordionId) {
+    var accordion = document.getElementById(accordionId);
+    if (!accordion) return;
+    var items = accordion.querySelectorAll('.accordion-item');
+
+    items.forEach(function (item) {
+      var trigger = item.querySelector('.accordion-trigger');
+      var content = item.querySelector('.accordion-content');
+      var arrow = item.querySelector('.accordion-arrow');
+      if (!trigger || !content) return;
+
+      trigger.addEventListener('click', function () {
+        var isOpen = content.classList.contains('open');
+
+        items.forEach(function (otherItem) {
+          var otherContent = otherItem.querySelector('.accordion-content');
+          var otherArrow = otherItem.querySelector('.accordion-arrow');
+          var otherTrigger = otherItem.querySelector('.accordion-trigger');
+          if (otherContent) otherContent.classList.remove('open');
+          if (otherArrow) otherArrow.classList.remove('open');
+          if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
+          content.classList.add('open');
+          arrow.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+
+  initAccordion('curriculum-accordion');
+  initAccordion('faq-accordion');
+
+  /* ── Scroll fade-in via IntersectionObserver ────────────── */
+  var fadeElements = document.querySelectorAll('.fade-in-section');
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    fadeElements.forEach(function (el) {
+      observer.observe(el);
+    });
+  } else {
+    fadeElements.forEach(function (el) {
+      el.classList.add('visible');
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>
