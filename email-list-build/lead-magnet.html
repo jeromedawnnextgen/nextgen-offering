@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Power Platform Developer: Claude Co-Work Skills Kit | NextGen PowerApps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { primary: '#0078D4', dark: '#0F172A', accent: '#00B4D8', light: '#F8FAFC' }
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+
+    /* Prompt code block */
+    .prompt-block {
+      background: #0F172A;
+      border-radius: 10px;
+      padding: 20px 24px;
+      position: relative;
+      border: 1px solid #1E293B;
+    }
+    .prompt-block pre {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #E2E8F0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+    }
+    .prompt-block .placeholder { color: #7DD3FC; }
+    .prompt-block .label { color: #94A3B8; }
+    .prompt-block .keyword { color: #C084FC; font-weight: 600; }
+
+    /* Copy button */
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #1E293B;
+      border: 1px solid #334155;
+      color: #94A3B8;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .copy-btn:hover { background: #0078D4; color: white; border-color: #0078D4; }
+    .copy-btn.copied { background: #059669; color: white; border-color: #059669; }
+
+    /* Category tags */
+    .tag-canvas { background: #EFF6FF; color: #0078D4; border: 1px solid #BFDBFE; }
+    .tag-automate { background: #F5F3FF; color: #7C3AED; border: 1px solid #DDD6FE; }
+    .tag-architecture { background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
+    .tag-bonus { background: #FFF7ED; color: #EA580C; border: 1px solid #FED7AA; }
+
+    /* Prompt card hover */
+    .prompt-card {
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .prompt-card:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Section header accent */
+    .section-num {
+      background: linear-gradient(135deg, #0078D4, #00B4D8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Print styles */
+    @media print {
+      .no-print { display: none !important; }
+      .prompt-block { border: 1px solid #334155; }
+      .prompt-card { break-inside: avoid; }
+      body { font-size: 12px; }
+    }
+
+    /* Gradient hero */
+    .hero-bg { background: linear-gradient(135deg, #0F172A 0%, #0F2D5A 60%, #0F172A 100%); }
+
+    /* Table of contents */
+    .toc-link {
+      display: flex; align-items: center; gap-3: gap;
+      padding: 8px 12px; border-radius: 8px;
+      text-decoration: none; transition: background 0.15s;
+      font-size: 0.85rem;
+    }
+    .toc-link:hover { background: #EFF6FF; }
+  </style>
+</head>
+<body class="bg-brand-light text-brand-dark">
+
+  <!-- ── HEADER ───────────────────────────────────────────── -->
+  <header class="hero-bg no-print">
+    <div class="max-w-4xl mx-auto px-4 py-5 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center gap-2 text-white font-extrabold text-lg no-underline">
+        <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13 2L4 13H11L9 20L18 9H11L13 2Z" fill="#0078D4" stroke="#0078D4" stroke-width="1.2" stroke-linejoin="round"/>
+        </svg>
+        NextGen <span class="text-brand-primary ml-1">PowerApps</span>
+      </a>
+      <div class="flex items-center gap-3">
+        <button onclick="window.print()" class="flex items-center gap-2 text-slate-300 hover:text-white text-sm font-medium transition-colors">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 6V2H12V6M4 12H3C2.44772 12 2 11.5523 2 11V7C2 6.44772 2.44772 6 3 6H13C13.5523 6 14 6.44772 14 7V11C14 11.5523 13.5523 12 13 12H12M4 10H12V14H4V10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Save as PDF
+        </button>
+        <button id="zip-btn" onclick="downloadKit()" class="flex items-center gap-2 bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 2V10M8 10L5 7M8 10L11 7M3 13H13" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="zip-label">Download Kit (.zip)</span>
+        </button>
+        <a href="../index.html#pricing" class="bg-brand-primary text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+          See the Course →
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── HERO ─────────────────────────────────────────────── -->
+  <section class="hero-bg pb-14 pt-10">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <span class="inline-flex items-center gap-2 bg-violet-900 bg-opacity-50 text-violet-200 text-xs font-semibold px-3 py-1.5 rounded-full border border-violet-700 border-opacity-40 mb-5">
+        ✦ Free Resource — NextGen PowerApps
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-white leading-tight mb-4">
+        Power Platform Developer:<br />
+        <span class="text-brand-accent">Claude Co-Work Skills Kit</span>
+      </h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto mb-6 leading-relaxed">
+        12 copy/paste prompts that turn Claude into your senior Power Platform co-developer.
+        Production-ready output. No hand-holding required.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 text-sm">
+        <span class="flex items-center gap-1.5 text-emerald-400 font-medium">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7L5.5 10.5L12 3.5" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          12 prompts + 1 bonus
+        </span>
+        <span class="flex items-center gap-1.5 text-emerald-400 font-medium">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7L5.5 10.5L12 3.5" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Canvas Apps + Power Automate + Architecture
+        </span>
+        <span class="flex items-center gap-1.5 text-emerald-400 font-medium">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7L5.5 10.5L12 3.5" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Works with Claude, Copilot, ChatGPT
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW TO USE ────────────────────────────────────────── -->
+  <section class="bg-white border-b border-slate-100 py-8 no-print">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="grid sm:grid-cols-3 gap-4 text-center">
+        <div class="p-4">
+          <div class="w-9 h-9 rounded-full bg-brand-primary text-white font-bold text-sm flex items-center justify-center mx-auto mb-3" aria-hidden="true">1</div>
+          <p class="font-semibold text-sm text-brand-dark mb-1">Pick your prompt</p>
+          <p class="text-slate-500 text-xs">Find the category that matches what you're building right now</p>
+        </div>
+        <div class="p-4">
+          <div class="w-9 h-9 rounded-full bg-brand-primary text-white font-bold text-sm flex items-center justify-center mx-auto mb-3" aria-hidden="true">2</div>
+          <p class="font-semibold text-sm text-brand-dark mb-1">Fill in the brackets</p>
+          <p class="text-slate-500 text-xs">Replace <span class="font-mono text-brand-primary text-xs">[placeholders]</span> with your actual requirements</p>
+        </div>
+        <div class="p-4">
+          <div class="w-9 h-9 rounded-full bg-brand-primary text-white font-bold text-sm flex items-center justify-center mx-auto mb-3" aria-hidden="true">3</div>
+          <p class="font-semibold text-sm text-brand-dark mb-1">Paste into Claude</p>
+          <p class="text-slate-500 text-xs">Get production-ready output. Review it — don't blindly paste it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MAIN CONTENT ──────────────────────────────────────── -->
+  <main class="max-w-4xl mx-auto px-4 py-12 space-y-8">
+
+    <!-- ─────────────────────────────────────────────────────
+         CANVAS APPS SECTION
+         ───────────────────────────────────────────────────── -->
+    <div>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-px flex-1 bg-slate-200"></div>
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Canvas Apps</span>
+        <div class="h-px flex-1 bg-slate-200"></div>
+      </div>
+
+      <!-- Prompt 1 -->
+      <div id="p1" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">01</span>
+              <span class="inline-block tag-canvas text-xs font-bold px-2.5 py-1 rounded-full">Canvas Apps</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Collection Builder</h2>
+            <p class="text-slate-500 text-sm mt-1">Generate a complete, delegation-aware ClearCollect formula with calculated fields — ready to paste directly into your app.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">🏗️</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a senior Power Apps developer.</span>
+
+I need help building a collection in a Canvas App.
+
+<span class="label">Context:</span>
+- Data source: <span class="placeholder">[SharePoint / Dataverse / SQL]</span>
+- Table name: <span class="placeholder">[table name]</span>
+- Columns: <span class="placeholder">[list columns]</span>
+- Goal: <span class="placeholder">[what the collection should represent]</span>
+
+<span class="label">Requirements:</span>
+- Use ClearCollect
+- AddColumns if needed
+- Include calculated fields
+- Optimize for performance (avoid delegation issues if possible)
+- Use proper Power Fx syntax with semicolons
+
+<span class="label">Return:</span>
+- Full working formula (ready to paste)
+- Brief explanation of each column</pre>
+        </div>
+      </div>
+
+      <!-- Prompt 2 -->
+      <div id="p2" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">02</span>
+              <span class="inline-block tag-canvas text-xs font-bold px-2.5 py-1 rounded-full">Canvas Apps</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Complex Filter / Business Logic</h2>
+            <p class="text-slate-500 text-sm mt-1">Describe your logic in plain English — get back clean, null-safe, readable Power Fx. Stops you second-guessing If vs Switch.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">🔍</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are an expert in Power Fx.</span>
+
+Convert this business logic into a clean, optimized Power Fx formula.
+
+<span class="label">Business Logic:</span>
+<span class="placeholder">[Describe in plain English]</span>
+
+<span class="label">Requirements:</span>
+- Use If / Switch appropriately
+- Handle nulls and blanks
+- Use With() where helpful
+- Optimize readability
+- Avoid redundant LookUps
+
+<span class="label">Return:</span>
+- Final formula
+- Explanation of logic mapping</pre>
+        </div>
+      </div>
+
+      <!-- Prompt 8 -->
+      <div id="p8" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">03</span>
+              <span class="inline-block tag-canvas text-xs font-bold px-2.5 py-1 rounded-full">Canvas Apps</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Variables + State Management</h2>
+            <p class="text-slate-500 text-sm mt-1">Design your variable strategy before you build — Set vs UpdateContext vs Collections with consistent naming conventions.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">⚙️</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a Power Apps expert.</span>
+
+Help me design variables for this app:
+
+<span class="label">Scenario:</span>
+<span class="placeholder">[Describe app behavior]</span>
+
+<span class="label">Requirements:</span>
+- Use Set, UpdateContext, and collections appropriately
+- Explain when to use each
+- Keep naming consistent (var*, loc*, col*)
+
+<span class="label">Return:</span>
+- Variable definitions
+- Example usage</pre>
+        </div>
+      </div>
+
+      <!-- Prompt 11 -->
+      <div id="p11" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">04</span>
+              <span class="inline-block tag-canvas text-xs font-bold px-2.5 py-1 rounded-full">Canvas Apps</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Data Transformation</h2>
+            <p class="text-slate-500 text-sm mt-1">Convert, reshape, and type-cast data between structures. ClearCollect, AddColumns, GroupBy with correct Value() and DateValue() casting.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">🔄</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a Power Fx data transformation expert.</span>
+
+Convert this:
+
+<span class="label">Input:</span>
+<span class="placeholder">[Describe structure OR paste sample]</span>
+
+<span class="label">Into:</span>
+<span class="placeholder">[Desired output structure]</span>
+
+<span class="label">Requirements:</span>
+- Use ClearCollect, AddColumns, GroupBy, etc.
+- Ensure correct typing (Value, DateValue, etc.)
+
+<span class="label">Return:</span>
+- Full formula</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────
+         POWER AUTOMATE SECTION
+         ───────────────────────────────────────────────────── -->
+    <div>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-px flex-1 bg-slate-200"></div>
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Power Automate</span>
+        <div class="h-px flex-1 bg-slate-200"></div>
+      </div>
+
+      <!-- Prompt 3 -->
+      <div id="p3" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">05</span>
+              <span class="inline-block tag-automate text-xs font-bold px-2.5 py-1 rounded-full">Power Automate</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Approval Workflow Logic</h2>
+            <p class="text-slate-500 text-sm mt-1">Multi-step approvals with dynamic approver logic and escalation — outputs both the Canvas App Power Fx AND the Automate flow structure.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">✅</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a Power Platform architect.</span>
+
+Design approval logic based on this process:
+
+<span class="placeholder">[Describe approval process in plain English]</span>
+
+<span class="label">Requirements:</span>
+- Support multi-step approvals
+- Dynamically determine next approver
+- Include escalation logic if needed
+- Output both:
+   1. Power Fx logic (Canvas App)
+   2. Power Automate flow structure
+
+<span class="label">Return:</span>
+- Step-by-step architecture
+- Power Fx formulas
+- Flow design (trigger, actions, conditions)</pre>
+        </div>
+      </div>
+
+      <!-- Prompt 4 -->
+      <div id="p4" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">06</span>
+              <span class="inline-block tag-automate text-xs font-bold px-2.5 py-1 rounded-full">Power Automate</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Expression Generator</h2>
+            <p class="text-slate-500 text-sm mt-1">Stop Googling formatDateTime and substring. Describe what you need — get the exact expression with null handling baked in.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">⚡</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a Power Automate expert.</span>
+
+Convert this requirement into a Power Automate expression:
+
+<span class="label">Requirement:</span>
+<span class="placeholder">[Describe logic]</span>
+
+<span class="label">Constraints:</span>
+- Use correct expression syntax
+- Handle null values safely
+- Optimize for readability
+
+<span class="label">Return:</span>
+- Expression only
+- Short explanation</pre>
+        </div>
+      </div>
+
+      <!-- Prompt 12 -->
+      <div id="p12" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">07</span>
+              <span class="inline-block tag-automate text-xs font-bold px-2.5 py-1 rounded-full">Power Automate</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Flow Design (End-to-End)</h2>
+            <p class="text-slate-500 text-sm mt-1">Full flow architecture from trigger to logging — including error handling. Use this before you build anything complex.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">🗺️</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a Power Automate architect.</span>
+
+Design a flow for this process:
+
+<span class="placeholder">[Describe process]</span>
+
+<span class="label">Requirements:</span>
+- Include trigger
+- Actions
+- Conditions
+- Error handling
+- Logging strategy
+
+<span class="label">Return:</span>
+- Step-by-step flow
+- Key expressions</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────
+         INTEGRATIONS + DATA SECTION
+         ───────────────────────────────────────────────────── -->
+    <div>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-px flex-1 bg-slate-200"></div>
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Integrations + Data</span>
+        <div class="h-px flex-1 bg-slate-200"></div>
+      </div>
+
+      <!-- Prompt 5 -->
+      <div id="p5" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">08</span>
+              <span class="inline-block tag-architecture text-xs font-bold px-2.5 py-1 rounded-full">Integrations</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">JSON Generator</h2>
+            <p class="text-slate-500 text-sm mt-1">Generate API payloads and Parse JSON schemas in one shot. Stops the back-and-forth of building schemas manually in the flow designer.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">📦</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are an expert in JSON for Power Platform integrations.</span>
+
+Generate a JSON structure for:
+
+<span class="label">Scenario:</span>
+<span class="placeholder">[Describe API or payload]</span>
+
+<span class="label">Requirements:</span>
+- Include realistic sample values
+- Ensure proper formatting
+- Compatible with Power Automate Parse JSON
+
+<span class="label">Return:</span>
+- JSON
+- Suggested schema (optional)</pre>
+        </div>
+      </div>
+
+      <!-- Prompt 6 — HIGH VALUE -->
+      <div id="p6" class="prompt-card bg-white rounded-2xl border-2 border-violet-200 p-7 mb-5" style="background: linear-gradient(to bottom right, #ffffff, #faf5ff);">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">09</span>
+              <span class="inline-block tag-automate text-xs font-bold px-2.5 py-1 rounded-full">Power Automate</span>
+              <span class="inline-block bg-orange-100 text-orange-700 border border-orange-200 text-xs font-bold px-2.5 py-1 rounded-full">🔥 HIGH VALUE</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Adaptive Card Builder</h2>
+            <p class="text-slate-500 text-sm mt-1">Full Teams-ready Adaptive Card JSON — approvals, notifications, or data display. Schema 1.4+, correct containers and FactSets, actions included.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">🃏</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are an expert in Microsoft Adaptive Cards.</span>
+
+Build an adaptive card for this scenario:
+
+<span class="label">Scenario:</span>
+<span class="placeholder">[Approval / Notification / Data display]</span>
+
+<span class="label">Fields:</span>
+<span class="placeholder">[List fields]</span>
+
+<span class="label">Requirements:</span>
+- Use Adaptive Card schema version 1.4+
+- Include actions (Approve / Reject if needed)
+- Clean layout (Containers, FactSet, etc.)
+
+<span class="label">Return:</span>
+- Full JSON (ready for Teams)</pre>
+        </div>
+      </div>
+
+      <!-- Prompt 7 -->
+      <div id="p7" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">10</span>
+              <span class="inline-block tag-automate text-xs font-bold px-2.5 py-1 rounded-full">Power Automate</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">HTML Generator (Emails / PDFs)</h2>
+            <p class="text-slate-500 text-sm mt-1">Mobile-friendly, inline-CSS HTML for Power Automate email actions. Invoices, approval summaries, reports — no CSS framework needed.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">📧</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a UI developer specializing in HTML for Power Automate emails.</span>
+
+Generate HTML for:
+
+<span class="label">Scenario:</span>
+<span class="placeholder">[Invoice / Approval summary / Report]</span>
+
+<span class="label">Requirements:</span>
+- Clean styling (inline CSS)
+- Mobile-friendly
+- Table-based layout where needed
+
+<span class="label">Return:</span>
+- HTML only</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────
+         ARCHITECTURE + DEBUGGING SECTION
+         ───────────────────────────────────────────────────── -->
+    <div>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-px flex-1 bg-slate-200"></div>
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Architecture + Debugging</span>
+        <div class="h-px flex-1 bg-slate-200"></div>
+      </div>
+
+      <!-- Prompt 9 — PREMIUM -->
+      <div id="p9" class="prompt-card bg-white rounded-2xl border-2 border-brand-primary p-7 mb-5" style="background: linear-gradient(to bottom right, #ffffff, #eff6ff);">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">11</span>
+              <span class="inline-block tag-architecture text-xs font-bold px-2.5 py-1 rounded-full">Architecture</span>
+              <span class="inline-block bg-orange-100 text-orange-700 border border-orange-200 text-xs font-bold px-2.5 py-1 rounded-full">🔥 PREMIUM OFFER</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Screen Documentation from Code</h2>
+            <p class="text-slate-500 text-sm mt-1">Paste any Power Fx screen code and get full structured documentation. Risks, dependencies, data sources, business logic — all extracted automatically.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">📋</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a Power Platform solution architect.</span>
+
+I will paste Power Fx code from a screen.
+
+<span class="label">Your job:</span>
+- Analyze the code
+- Document what the screen does
+
+<span class="label">Output format:</span>
+1. Screen Purpose
+2. Data Sources Used
+3. Key Collections
+4. Business Logic
+5. User Actions
+6. Dependencies (Flows, APIs)
+7. Risks / Improvements
+
+<span class="label">Code:</span>
+<span class="placeholder">[Paste code]</span></pre>
+        </div>
+      </div>
+
+      <!-- Prompt 10 -->
+      <div id="p10" class="prompt-card bg-white rounded-2xl border border-slate-200 p-7 mb-5">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl font-black section-num">12</span>
+              <span class="inline-block tag-architecture text-xs font-bold px-2.5 py-1 rounded-full">Architecture</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-brand-dark">Debugging + Error Fixer</h2>
+            <p class="text-slate-500 text-sm mt-1">Paste the error or describe the wrong behavior. Get root cause analysis, corrected code, and an explanation — not just a guess.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">🐛</span>
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a senior Power Platform developer.</span>
+
+I am getting this issue:
+
+<span class="placeholder">[Paste error or behavior]</span>
+
+<span class="label">Context:</span>
+<span class="placeholder">[What you're trying to do]</span>
+
+<span class="label">Requirements:</span>
+- Identify root cause
+- Provide corrected code
+- Explain why it failed
+
+<span class="label">Return:</span>
+- Fixed version
+- Explanation</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────
+         BONUS — SIGNATURE PROMPT
+         ───────────────────────────────────────────────────── -->
+    <div>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-px flex-1 bg-slate-200"></div>
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Bonus</span>
+        <div class="h-px flex-1 bg-slate-200"></div>
+      </div>
+
+      <div id="bonus" class="prompt-card rounded-2xl p-7 mb-5 border-2 border-orange-300" style="background: linear-gradient(135deg, #0F172A, #1a0533);">
+        <div class="flex items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="inline-block bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">✦ BONUS</span>
+            </div>
+            <h2 class="text-xl font-extrabold text-white">Natural Language → Full App Logic</h2>
+            <p class="text-slate-300 text-sm mt-1">Describe a business process in plain English. Get the entire solution architecture back — data model, Canvas App logic, Automate flows, approvals, edge cases. Production-ready.</p>
+          </div>
+          <span class="text-3xl flex-shrink-0" aria-hidden="true">🚀</span>
+        </div>
+        <div class="prompt-block" style="border-color: #2d1b4e;">
+          <button class="copy-btn no-print" onclick="copyPrompt(this)" aria-label="Copy prompt">
+            <svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg>
+            Copy
+          </button>
+          <pre><span class="keyword">You are a Power Platform expert.</span>
+
+Turn this business process into working app logic:
+
+<span class="label">Process:</span>
+<span class="placeholder">[Plain English description]</span>
+
+<span class="label">Output:</span>
+1. Data model (tables + fields)
+2. Canvas app logic (Power Fx)
+3. Power Automate flows
+4. Approval logic
+5. Edge cases
+
+Make it production-ready.</pre>
+        </div>
+        <p class="text-slate-400 text-xs mt-4 italic">This is the prompt that collapses a week of scoping into 10 minutes. Use it at the start of every new engagement.</p>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────
+         POSITIONING SECTION
+         ───────────────────────────────────────────────────── -->
+    <div class="bg-white rounded-2xl border border-slate-200 p-8 sm:p-10">
+      <div class="text-center mb-8">
+        <span class="inline-block text-xs font-bold text-brand-primary bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-full mb-3">How to think about this</span>
+        <h2 class="text-2xl font-extrabold text-brand-dark">This is not "just prompts."</h2>
+        <p class="text-slate-500 mt-2">It's a <strong class="text-brand-dark">Power Platform Thinking System</strong> — the way senior developers approach problems before they touch the builder.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-5 mb-8">
+        <div class="text-center p-5 bg-brand-light rounded-xl border border-slate-100">
+          <div class="text-3xl mb-3" aria-hidden="true">⚡</div>
+          <p class="font-bold text-brand-dark text-sm mb-1">Starter Kit</p>
+          <p class="text-slate-500 text-xs">"Get results immediately"</p>
+          <p class="text-brand-primary text-xs font-semibold mt-2">← You are here</p>
+        </div>
+        <div class="text-center p-5 bg-blue-50 rounded-xl border border-blue-200">
+          <div class="text-3xl mb-3" aria-hidden="true">🏗️</div>
+          <p class="font-bold text-brand-dark text-sm mb-1">12-Week Program</p>
+          <p class="text-slate-500 text-xs">"Understand WHY it works"</p>
+          <p class="text-xs text-slate-400 mt-2">The foundation that makes these prompts actually reliable</p>
+        </div>
+        <div class="text-center p-5 bg-violet-50 rounded-xl border border-violet-200">
+          <div class="text-3xl mb-3" aria-hidden="true">🤖</div>
+          <p class="font-bold text-brand-dark text-sm mb-1">AI Module (Week 10)</p>
+          <p class="text-slate-500 text-xs">"Multiply your output 10x"</p>
+          <p class="text-xs text-slate-400 mt-2">AI Builder, Copilot Studio, Azure OpenAI — for when prompts aren't enough</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 rounded-xl border border-slate-200 p-5 text-sm text-slate-600 leading-relaxed">
+        <strong class="text-brand-dark">The honest truth:</strong> these prompts get you output fast. But if you don't understand delegation, Dataverse schema design, or flow error handling — you won't know when the output is wrong. The 12-week course teaches you the foundations so you can direct Claude with intent, not hope.
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────
+         CTA
+         ───────────────────────────────────────────────────── -->
+    <div class="rounded-2xl p-8 sm:p-10 text-center no-print" style="background: linear-gradient(135deg, #0F172A 0%, #0F2D5A 100%);">
+      <div class="w-16 h-16 rounded-full bg-brand-primary mx-auto flex items-center justify-center text-white text-2xl font-black mb-5 border-4 border-blue-800" aria-label="Jerome Dawn">JD</div>
+      <h2 class="text-2xl font-extrabold text-white mb-3">Ready to build the foundation?</h2>
+      <p class="text-slate-300 text-sm leading-relaxed max-w-xl mx-auto mb-6">
+        The <strong class="text-white">12-Week Power Platform Mastery Program</strong> covers everything these prompts assume you know — Canvas Apps, Dataverse, Power Automate, Azure integrations, ALM, and a full dedicated AI module.
+        <br /><br />
+        One-time payment. Lifetime access. Direct access to Jerome in Slack.
+      </p>
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <span class="text-4xl font-black text-white">$497</span>
+        <span class="text-xl font-bold text-slate-500 line-through">$997</span>
+        <span class="text-xs font-bold text-emerald-400 bg-emerald-900 bg-opacity-40 border border-emerald-700 border-opacity-40 px-2 py-1 rounded-full">Save $500</span>
+      </div>
+      <a href="../index.html#pricing" class="inline-flex items-center gap-2 bg-brand-primary text-white font-bold text-base px-8 py-4 rounded-xl hover:bg-blue-600 transition-colors shadow-lg shadow-blue-900/40">
+        See the Full Course →
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="text-slate-500 text-xs mt-4">🔒 30-day money-back guarantee</p>
+    </div>
+
+  </main>
+
+  <!-- ── FOOTER ────────────────────────────────────────────── -->
+  <footer class="bg-brand-dark py-8 text-center no-print">
+    <p class="text-slate-400 text-sm">&copy; 2026 NextGen PowerApps &middot; <a href="mailto:jerome@nextgenpowerapps.com" class="hover:text-white transition-colors">jerome@nextgenpowerapps.com</a></p>
+    <p class="text-slate-600 text-xs mt-1">Built on Microsoft Power Platform + AI ⚡</p>
+  </footer>
+
+  <!-- ── DOWNLOAD AS ZIP ──────────────────────────────────── -->
+  <script>
+  var KIT_FILES = {
+
+    'README.md': `# Power Platform Developer: Claude Co-Work Skills Kit\n\n**By Jerome Dawn — NextGen PowerApps**\n\n---\n\n## What Is This?\n\nThis kit is a structured collection of Claude prompts built specifically for Power Platform developers.\nEach prompt is engineered to return **production-ready output** — not demos, not toy examples.\n\nYou fill in the \`[brackets]\`. Claude does the heavy lifting.\n\n---\n\n## Folder Structure\n\n\`\`\`\nkit/\n├── README.md\n├── top-10-sample-prompts.md\n├── skills/  (13 prompt files)\n└── examples/ (13 worked examples)\n\`\`\`\n\n---\n\n## How to Use\n\n1. Open a file in \`skills/\` that matches your task\n2. Replace all \`[bracket placeholders]\` with your actual requirements\n3. Paste into Claude, Copilot, or ChatGPT\n4. Review the output critically — don't blindly paste it\n\n---\n\n## How to Create Your Own Skill Files\n\n\`\`\`markdown\n# Skill Name\n\n## What this prompt does\nOne paragraph.\n\n## When to use it\n- Use cases\n\n## The Prompt\n\\\`\\\`\\\`\n[prompt here]\n\\\`\\\`\\\`\n\n## How to adapt it\n- Tips\n\n## What to expect back\nDescription of output.\n\n## Common mistakes\n- Mistakes\n\`\`\`\n\n---\n\n*© 2026 NextGen PowerApps — jerome@nextgenpowerapps.com*`,
+
+    'top-10-sample-prompts.md': `# Top 10 Sample Prompts — Ready to Paste\n\n**Power Platform Developer: Claude Co-Work Skills Kit**\nBy Jerome Dawn — NextGen PowerApps\n\n> Pre-filled prompts using realistic scenarios. Copy any directly into Claude.\n\n---\n\n## 1. Project Tracker Collection\n\n\`\`\`\nYou are a senior Power Apps developer.\n\nI need help building a collection in a Canvas App.\n\nContext:\n- Data source: Dataverse\n- Table name: cr123_Projects\n- Columns: cr123_ProjectName, cr123_Status, cr123_DueDate, cr123_AssignedTo, cr123_BudgetUsed, cr123_BudgetTotal\n- Goal: All active projects with % budget used, filtered to the current user\n\nRequirements:\n- Use ClearCollect\n- AddColumns if needed\n- Include calculated fields\n- Optimize for performance\n- Use proper Power Fx syntax\n\nReturn:\n- Full working formula\n- Brief explanation of each column\n\`\`\`\n\n---\n\n## 2. Status Colour Logic\n\n\`\`\`\nYou are an expert in Power Fx.\n\nBusiness Logic:\nIf status is "On Track" return green, "At Risk" return amber, "Overdue" return red, "Complete" return grey. Default white.\n\nRequirements:\n- Use If / Switch appropriately\n- Handle nulls and blanks\n- Use With() where helpful\n\nReturn:\n- Final formula\n- Explanation\n\`\`\`\n\n---\n\n## 3. Three-Level Purchase Approval\n\n\`\`\`\nYou are a Power Platform architect.\n\nUnder £500: line manager. £500-£5000: line manager then finance. Over £5000: line manager, finance, CFO.\nRejection cancels and notifies requester. 48h to respond before escalation.\n\nRequirements:\n- Multi-step approvals\n- Dynamic approver determination\n- Escalation logic\n- Output both Power Fx and Automate flow structure\n\nReturn:\n- Architecture\n- Power Fx formulas\n- Flow design\n\`\`\`\n\n---\n\n## 4. Format Date Expression\n\n\`\`\`\nYou are a Power Automate expert.\n\nRequirement:\nFormat SharePoint DueDate column as DD/MM/YYYY. If null, return "No due date set".\n\nConstraints:\n- Correct expression syntax\n- Handle null safely\n\nReturn:\n- Expression only\n- Short explanation\n\`\`\`\n\n---\n\n## 5. Invoice JSON Payload\n\n\`\`\`\nYou are an expert in JSON for Power Platform integrations.\n\nScenario:\nInvoice for external API: invoice number, supplier name, date, line items (description, quantity, unit price), subtotal, VAT, total.\n\nRequirements:\n- Realistic sample values\n- Compatible with Power Automate Parse JSON\n\nReturn:\n- JSON\n- Suggested schema\n\`\`\`\n\n---\n\n## 6. Expense Approval Teams Card\n\n\`\`\`\nYou are an expert in Microsoft Adaptive Cards.\n\nScenario: Expense approval card for Teams.\nFields: Employee Name, Date, Category, Amount, Description, Receipt Attached.\n\nRequirements:\n- Schema 1.4+\n- Approve / Reject actions\n- FactSet layout\n\nReturn:\n- Full JSON ready for Teams\n\`\`\`\n\n---\n\n## 7. Weekly Status Email HTML\n\n\`\`\`\nYou are a UI developer for Power Automate emails.\n\nScenario: Weekly project status digest — project name, status badge, owner, % complete, due date.\n\nRequirements:\n- Inline CSS\n- Mobile-friendly\n- Table layout\n\nReturn:\n- HTML only\n\`\`\`\n\n---\n\n## 8. Multi-Screen Form Variables\n\n\`\`\`\nYou are a Power Apps expert.\n\nScenario: 4-screen new starter app. Personal details > role > IT requirements > review > submit.\nUser can go back. Flow triggered on submit. Loading spinner needed. New and Edit modes.\n\nRequirements:\n- Set, UpdateContext, collections appropriately\n- var*, loc*, col* naming\n\nReturn:\n- Variable definitions\n- Example usage\n\`\`\`\n\n---\n\n## 9. Debug Gallery Showing Only 500 Records\n\n\`\`\`\nYou are a senior Power Platform developer.\n\nIssue: Gallery only shows 500 records. SharePoint list has 3000+ rows. No filter applied.\nContext: Items property is just the list name. Need search by name and filter by category.\n\nRequirements:\n- Root cause\n- Corrected code\n- Explanation\n\nReturn:\n- Fixed version\n- Explanation\n\`\`\`\n\n---\n\n## 10. Leave Request System — Full App\n\n\`\`\`\nYou are a Power Platform expert.\n\nProcess:\nEmployees submit leave via Canvas App (dates, type, notes). Manager approves via Teams.\nApproved leave logged in Dataverse, allowance updated. HR uses model-driven app.\n\nOutput:\n1. Data model\n2. Canvas app logic\n3. Power Automate flows\n4. Approval logic\n5. Edge cases\n\nMake it production-ready.\n\`\`\`\n\n---\n\n*© 2026 NextGen PowerApps — jerome@nextgenpowerapps.com*`,
+
+    'skills/01-collection-builder.md': `# 01 — Collection Builder\n\n**Category:** Canvas Apps\n\n## What this prompt does\nGenerates a complete ClearCollect formula with AddColumns for calculated fields. Delegation-aware. Ready to paste.\n\n## When to use it\n- Loading data into a collection on app start\n- Adding calculated columns (% complete, days overdue, full name)\n- Pre-filtering or pre-sorting before binding to a gallery\n\n## The Prompt\n\`\`\`\nYou are a senior Power Apps developer.\n\nI need help building a collection in a Canvas App.\n\nContext:\n- Data source: [SharePoint / Dataverse / SQL]\n- Table name: [table name]\n- Columns: [list columns]\n- Goal: [what the collection should represent]\n\nRequirements:\n- Use ClearCollect\n- AddColumns if needed\n- Include calculated fields\n- Optimize for performance (avoid delegation issues if possible)\n- Use proper Power Fx syntax with semicolons\n\nReturn:\n- Full working formula (ready to paste)\n- Brief explanation of each column\n\`\`\`\n\n## How to adapt it\n- Use internal column names, not display names\n- Describe calculated fields explicitly\n- State where the formula lives (App.OnStart vs button)\n\n## Common mistakes\n- Using display names instead of internal names for Dataverse columns\n- Ignoring the delegation warning on large lists\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/02-complex-filter.md': `# 02 — Complex Filter / Business Logic\n\n**Category:** Canvas Apps\n\n## What this prompt does\nConverts plain-English business logic into clean, null-safe Power Fx. Handles If, Switch, With(), blank checks.\n\n## The Prompt\n\`\`\`\nYou are an expert in Power Fx.\n\nConvert this business logic into a clean, optimized Power Fx formula.\n\nBusiness Logic:\n[Describe in plain English]\n\nRequirements:\n- Use If / Switch appropriately\n- Handle nulls and blanks\n- Use With() where helpful\n- Optimize readability\n- Avoid redundant LookUps\n\nReturn:\n- Final formula\n- Explanation of logic mapping\n\`\`\`\n\n## Common mistakes\n- Forgetting IsBlank() — null status falls through all conditions\n- Not using With() when the same sub-expression appears multiple times\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/03-approval-workflow.md': `# 03 — Approval Workflow Logic\n\n**Category:** Canvas Apps + Power Automate\n\n## What this prompt does\nDesigns multi-step approval architecture across both Canvas App (Power Fx) and Power Automate. Dynamic approvers, escalation, rejection paths.\n\n## The Prompt\n\`\`\`\nYou are a Power Platform architect.\n\nDesign approval logic based on this process:\n\n[Describe approval process in plain English]\n\nRequirements:\n- Support multi-step approvals\n- Dynamically determine next approver\n- Include escalation logic if needed\n- Output both:\n   1. Power Fx logic (Canvas App)\n   2. Power Automate flow structure\n\nReturn:\n- Step-by-step architecture\n- Power Fx formulas\n- Flow design (trigger, actions, conditions)\n\`\`\`\n\n## Common mistakes\n- Not storing approval state in the data source\n- Not handling blank/unassigned approvers\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/04-expression-generator.md': `# 04 — Power Automate Expression Generator\n\n**Category:** Power Automate\n\n## What this prompt does\nConverts plain-English requirements into correct Power Automate expressions. formatDateTime, coalesce, concat, if(empty()) — null safe.\n\n## The Prompt\n\`\`\`\nYou are a Power Automate expert.\n\nConvert this requirement into a Power Automate expression:\n\nRequirement:\n[Describe logic]\n\nConstraints:\n- Use correct expression syntax\n- Handle null values safely\n- Optimize for readability\n\nReturn:\n- Expression only\n- Short explanation\n\`\`\`\n\n## Common mistakes\n- Pasting expression into Dynamic Content tab instead of Expression tab\n- Forgetting Power Automate dates are UTC — convert timezone before formatting\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/05-json-generator.md': `# 05 — JSON Generator\n\n**Category:** Integrations\n\n## What this prompt does\nGenerates realistic JSON payloads and Parse JSON schemas for Power Automate HTTP actions and custom connectors.\n\n## The Prompt\n\`\`\`\nYou are an expert in JSON for Power Platform integrations.\n\nGenerate a JSON structure for:\n\nScenario:\n[Describe API or payload]\n\nRequirements:\n- Include realistic sample values\n- Ensure proper formatting\n- Compatible with Power Automate Parse JSON\n\nReturn:\n- JSON\n- Suggested schema (optional)\n\`\`\`\n\n## Common mistakes\n- Not specifying array fields — schema won't handle line items\n- Forgetting arrays need "type":"array" with "items" definition\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/06-adaptive-card-builder.md': `# 06 — Adaptive Card Builder\n\n**Category:** Power Automate / Teams\n**Value:** High — clients pay for this specifically\n\n## What this prompt does\nGenerates complete Adaptive Card JSON for Teams. Containers, FactSets, action buttons. Schema 1.4+. Test at adaptivecards.io/designer/\n\n## The Prompt\n\`\`\`\nYou are an expert in Microsoft Adaptive Cards.\n\nBuild an adaptive card for this scenario:\n\nScenario:\n[Approval / Notification / Data display]\n\nFields:\n[List fields]\n\nRequirements:\n- Use Adaptive Card schema version 1.4+\n- Include actions (Approve / Reject if needed)\n- Clean layout (Containers, FactSet, etc.)\n\nReturn:\n- Full JSON (ready for Teams)\n\`\`\`\n\n## Common mistakes\n- Using TextBlock for key-value pairs instead of FactSet\n- Not testing in the Adaptive Card Designer before deploying\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/07-html-generator.md': `# 07 — HTML Generator (Emails / PDFs)\n\n**Category:** Power Automate\n\n## What this prompt does\nGenerates mobile-friendly, inline-CSS HTML for Power Automate email actions. Table-based layout that works in Outlook.\n\n## The Prompt\n\`\`\`\nYou are a UI developer specializing in HTML for Power Automate emails.\n\nGenerate HTML for:\n\nScenario:\n[Invoice / Approval summary / Report]\n\nRequirements:\n- Clean styling (inline CSS)\n- Mobile-friendly\n- Table-based layout where needed\n\nReturn:\n- HTML only\n\`\`\`\n\n## Common mistakes\n- Using external CSS — gets stripped by email clients\n- Using flexbox/Grid in email HTML — not supported in Outlook\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/08-variables-state-management.md': `# 08 — Variables + State Management\n\n**Category:** Canvas Apps\n\n## What this prompt does\nDesigns variable strategy: Set (global), UpdateContext (local), collections. Consistent var*/loc*/col* naming. Returns definitions + example usage.\n\n## The Prompt\n\`\`\`\nYou are a Power Apps expert.\n\nHelp me design variables for this app:\n\nScenario:\n[Describe app behavior]\n\nRequirements:\n- Use Set, UpdateContext, and collections appropriately\n- Explain when to use each\n- Keep naming consistent (var*, loc*, col*)\n\nReturn:\n- Variable definitions\n- Example usage\n\`\`\`\n\n## Common mistakes\n- Using Set for everything — globals cause stale data bugs\n- Using UpdateContext to pass data to the next screen — use Set instead\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/09-screen-documentation.md': `# 09 — Screen Documentation from Code\n\n**Category:** Architecture\n**Value:** Premium deliverable — charge for this as a standalone audit\n\n## What this prompt does\nPaste any Power Fx screen code, get structured docs: purpose, data sources, collections, business logic, user actions, dependencies, risks.\n\n## The Prompt\n\`\`\`\nYou are a Power Platform solution architect.\n\nI will paste Power Fx code from a screen.\n\nYour job:\n- Analyze the code\n- Document what the screen does\n\nOutput format:\n1. Screen Purpose\n2. Data Sources Used\n3. Key Collections\n4. Business Logic\n5. User Actions\n6. Dependencies (Flows, APIs)\n7. Risks / Improvements\n\nCode:\n[Paste code]\n\`\`\`\n\n## Consulting use case\nDeliver this as a technical audit document. Charge £500–£1500 for a health check engagement.\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/10-debugging-error-fixer.md': `# 10 — Debugging + Error Fixer\n\n**Category:** Architecture\n\n## What this prompt does\nRoot cause analysis for Power Fx errors, delegation warnings, Automate flow failures, and unexpected empty results.\n\n## The Prompt\n\`\`\`\nYou are a senior Power Platform developer.\n\nI am getting this issue:\n\n[Paste error or behavior]\n\nContext:\n[What you're trying to do]\n\nRequirements:\n- Identify root cause\n- Provide corrected code\n- Explain why it failed\n\nReturn:\n- Fixed version\n- Explanation\n\`\`\`\n\n## Common mistakes\n- Describing behavior without pasting the actual formula\n- Not mentioning the data source type — delegation behaves differently on SP vs Dataverse\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/11-data-transformation.md': `# 11 — Data Transformation\n\n**Category:** Canvas Apps\n\n## What this prompt does\nConverts, reshapes, and type-casts data. ClearCollect, AddColumns, GroupBy with correct Value(), DateValue(), Text() casting.\n\n## The Prompt\n\`\`\`\nYou are a Power Fx data transformation expert.\n\nConvert this:\n\nInput:\n[Describe structure OR paste sample]\n\nInto:\n[Desired output structure]\n\nRequirements:\n- Use ClearCollect, AddColumns, GroupBy, etc.\n- Ensure correct typing (Value, DateValue, etc.)\n\nReturn:\n- Full formula\n\`\`\`\n\n## Common mistakes\n- Running heavy transformations in a Gallery Items property — do it once in a collection\n- Forgetting DateValue() requires a specific format\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/12-flow-design.md': `# 12 — Flow Design (End-to-End)\n\n**Category:** Power Automate\n\n## What this prompt does\nDesigns a complete flow from trigger to logging — including error handling, conditions, and key expressions. Step-by-step architecture you can follow to build.\n\n## The Prompt\n\`\`\`\nYou are a Power Automate architect.\n\nDesign a flow for this process:\n\n[Describe process]\n\nRequirements:\n- Include trigger\n- Actions\n- Conditions\n- Error handling\n- Logging strategy\n\nReturn:\n- Step-by-step flow\n- Key expressions\n\`\`\`\n\n## The error handling pattern to always use\nScope: Try > [all actions] | Scope: Catch (run after failed/timed out) > log error + notify\n\n## Common mistakes\n- No error handling until something breaks in production\n- Not logging enough context for overnight failures\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'skills/bonus-natural-language-app.md': `# Bonus — Natural Language → Full App Logic\n\n**Category:** Architecture\n\n## What this prompt does\nDescribe a business process in plain English. Get back the full solution: data model, Canvas App logic, Automate flows, approval logic, edge cases. Use at the start of every engagement.\n\n## The Prompt\n\`\`\`\nYou are a Power Platform expert.\n\nTurn this business process into working app logic:\n\nProcess:\n[Plain English description]\n\nOutput:\n1. Data model (tables + fields)\n2. Canvas app logic (Power Fx)\n3. Power Automate flows\n4. Approval logic\n5. Edge cases\n\nMake it production-ready.\n\`\`\`\n\n## How to adapt it\nMore context = dramatically better output. Include: who the users are, where data currently lives, integrations needed, scale, compliance requirements.\n\n## Consulting use case\nRun this prompt during/after a scoping call. Return a structured technical proposal within 24 hours. Charge £500–£2000 for the design phase.\n\n*© 2026 NextGen PowerApps — nextgenpowerapps.com*`,
+
+    'examples/01-collection-builder-example.md': `# Example: Collection Builder\n\nScenario: IT support tickets assigned to current user with DaysOpen calculated column.\n\nData source: Dataverse, table cr123_SupportTickets, columns: TicketId, Title, Status, Priority, CreatedOn, AssignedTo.\nGoal: Open/In Progress tickets for current user with DaysOpen = DateDiff(CreatedOn, Today(), Days).\n\nExpected output: ClearCollect wrapping a Filter on AssignedTo matching User().Email, AddColumns for DaysOpen.\n\nPro tip: Ask Claude to generate the App.OnStart initialisation so you know exactly where to place it.`,
+
+    'examples/02-complex-filter-example.md': `# Example: Complex Filter\n\nScenario: Colour-code project status badges — Complete=grey, Cancelled=red, Active+>7days=green, Active+<7days=amber, Active+overdue=red.\n\nExpected output: With() block capturing DateDiff once, Switch on status with nested If for Active branch, IsBlank checks on both fields.\n\nPro tip: Use this pattern for icon names, font weights, border colours — any property driven by record state.`,
+
+    'examples/03-approval-workflow-example.md': `# Example: Approval Workflow\n\nScenario: Purchase requests with 3-tier routing based on amount (under £500, £500-£5000, over £5000). 48h escalation.\n\nExpected output: Dataverse status column, Power Fx for submit/display, 3 sequential child flows with Start and wait for approval, parallel 48h timeout branch for escalation.\n\nPro tip: Ask Claude to design the Dataverse audit trail schema separately — you'll need it for reporting.`,
+
+    'examples/04-expression-generator-example.md': `# Example: Expression Generator\n\nScenario: Format SharePoint DueDate as DD/MM/YYYY with null fallback, then build dynamic email subject.\n\nExpected output:\n1. if(empty(triggerBody()?['DueDate']), 'No due date', formatDateTime(triggerBody()?['DueDate'], 'dd/MM/yyyy'))\n2. concat('Project Update: ', triggerBody()?['ProjectName'], ' — Due: ', [expression 1])\n\nPro tip: Use a Compose action to store the expression so you can reference it by name downstream.`,
+
+    'examples/05-json-generator-example.md': `# Example: JSON Generator\n\nScenario: POST body for supplier invoice API with header + line items array.\n\nExpected output: JSON with header object and lineItems array (2-3 sample items), plus Power Automate Parse JSON schema with correct types and items definition.\n\nPro tip: Compare Claude's schema to the one generated by "Use sample payload" in Power Automate and reconcile differences.`,
+
+    'examples/06-adaptive-card-example.md': `# Example: Adaptive Card Builder\n\nScenario: Expense claim approval card for Teams manager notification.\n\nExpected output: Container with blue header, FactSet for structured fields, TextBlock for justification, ActionSet with Approve/Reject Submit actions each with a data payload.\n\nPro tip: Test at adaptivecards.io/designer before deploying — catches schema errors instantly.`,
+
+    'examples/07-html-generator-example.md': `# Example: HTML Generator\n\nScenario: Weekly project status digest — table with status badges, owner, % complete, due date.\n\nExpected output: HTML with blue header, alternating-row table, inline-styled status badges as spans, footer with Power App link. All values as [Placeholder] tokens.\n\nPro tip: Switch the email body to Code View in Power Automate to paste HTML, then replace placeholders with dynamic content.`,
+
+    'examples/08-variables-example.md': `# Example: Variables + State Management\n\nScenario: 4-screen asset request app — New and Edit modes, loading spinner, flow trigger on submit.\n\nExpected output: varFormMode (global, Text), varSelectedDraft (global, Record), varIsSubmitting (global, Boolean), locAssetType/locQuantity (local on Screen 1), colRequestLines (Collection).\n\nPro tip: Ask Claude to generate App.OnStart to initialise all globals — prevents blank errors on first load.`,
+
+    'examples/09-screen-documentation-example.md': `# Example: Screen Documentation\n\nScenario: Documenting an inherited Canvas App screen before making changes.\n\nExpected output: 7-section document covering purpose, data sources, collections, business logic, user actions, flow dependencies, and delegation risks/hardcoded values.\n\nPro tip: Include this in your client handover pack. Most clients have no documentation — this differentiates your delivery.`,
+
+    'examples/10-debugging-example.md': `# Example: Debugging\n\nScenario: Gallery showing only 500 of 3000+ SharePoint records.\n\nExpected output: Identifies delegation limit (500 default, 2000 max). Two options: increase limit + use delegable Filter with StartsWith, or ClearCollect with paging for very large lists. Also explains why Search() is not delegable on SharePoint.\n\nPro tip: Ask Claude "what other delegation issues might exist in this app?" after the fix.`,
+
+    'examples/11-data-transformation-example.md': `# Example: Data Transformation\n\nScenario: SharePoint budget list with text columns — convert to numbers, add PercentSpent and IsOverBudget.\n\nExpected output: ClearCollect with AddColumns using Value() for numbers, DateValue() for dates, Round(Value(Spent)/Value(Allocated)*100,1) for percent, boolean comparison for IsOverBudget.\n\nPro tip: Ask Claude to handle the BudgetAllocated = "0" or blank edge case to avoid division by zero.`,
+
+    'examples/12-flow-design-example.md': `# Example: Flow Design\n\nScenario: Automated employee onboarding when Dataverse record created — AAD account, M365 licence, SharePoint site, welcome email, Teams notifications, status update.\n\nExpected output: 12-step flow including Graph API HTTP calls, conditional site creation, Try/Catch scope around all actions, logging to cr123_FlowLogs Dataverse table.\n\nPro tip: Ask Claude to generate the FlowLogs Dataverse schema too — you'll need it for the logging step.`,
+
+    'examples/bonus-natural-language-example.md': `# Example: Natural Language → Full App\n\nScenario: Leave management system replacing manual email process for 500-person company.\n\nExpected output:\n- Data model: Employees, LeaveRequests, LeaveAllowances, Teams tables\n- Canvas App: 3 screens (submit, my requests, team calendar)\n- Flows: Submit (validates coverage), Approval handler, Daily escalation check\n- Approval: Teams Adaptive Card, 24h timeout, escalation to department head, rejection requires reason\n- Edge cases: overlap detection, public holidays, sick leave bypass, missing manager\n\nPro tip: Use this output as the agenda for your first scoping call — the gaps clients identify become your change request scope.`
+
+  };
+
+  var _cachedZipBlob = null;
+
+  function downloadKit() {
+    var btn = document.getElementById('zip-btn');
+    var label = document.getElementById('zip-label');
+
+    function resetBtn() {
+      label.textContent = 'Download Kit (.zip)';
+      btn.style.background = '';
+      btn.disabled = false;
+    }
+
+    if (_cachedZipBlob) {
+      saveAs(_cachedZipBlob, 'power-platform-cowork-skills-kit.zip');
+      label.textContent = '✓ Downloaded!';
+      btn.style.background = '#059669';
+      setTimeout(resetBtn, 3000);
+      return;
+    }
+
+    btn.disabled = true;
+    label.textContent = 'Building ZIP...';
+
+    var zip = new JSZip();
+    var folder = zip.folder('power-platform-cowork-skills-kit');
+    Object.keys(KIT_FILES).forEach(function(path) {
+      folder.file(path, KIT_FILES[path]);
+    });
+
+    zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } })
+      .then(function(blob) {
+        _cachedZipBlob = blob;
+        saveAs(blob, 'power-platform-cowork-skills-kit.zip');
+        label.textContent = '✓ Downloaded!';
+        btn.style.background = '#059669';
+        setTimeout(resetBtn, 3000);
+      })
+      .catch(function(err) {
+        console.error(err);
+        label.textContent = 'Error — try again';
+        resetBtn();
+      });
+  }
+
+  var COPY_ICON_HTML = '<svg width="12" height="12" aria-hidden="true"><use href="#icon-copy"/></svg> Copy';
+  var CHECK_ICON_HTML = '<svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7L5.5 10.5L12 3.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Copied!';
+
+  function copyPrompt(btn) {
+    var block = btn.closest('.prompt-block');
+    if (!block) return;
+    var pre = block.querySelector('pre');
+    if (!pre) return;
+    var text = pre.textContent;
+
+    function showCopied() {
+      btn.classList.add('copied');
+      btn.innerHTML = CHECK_ICON_HTML;
+      setTimeout(function() {
+        btn.classList.remove('copied');
+        btn.innerHTML = COPY_ICON_HTML;
+      }, 2000);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(showCopied).catch(function() {
+        fallbackCopy(text, showCopied);
+      });
+    } else {
+      fallbackCopy(text, showCopied);
+    }
+  }
+
+  function fallbackCopy(text, callback) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); callback(); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+  </script>
+
+<!-- SVG symbol — defined once, referenced by all copy buttons via <use> -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="icon-copy" viewBox="0 0 16 16" fill="none">
+    <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M11 5V3.5C11 2.67157 10.3284 2 9.5 2H3.5C2.67157 2 2 2.67157 2 3.5V9.5C2 10.3284 2.67157 11 3.5 11H5" stroke="currentColor" stroke-width="1.5"/>
+  </symbol>
+</svg>
+</body>
+</html>

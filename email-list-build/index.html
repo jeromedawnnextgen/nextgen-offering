@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Free download: The Power Platform AI Starter Kit — 10 Copilot prompts that actually work, from Jerome Dawn at NextGen PowerApps." />
+  <title>Free Download — The Power Platform AI Starter Kit | NextGen PowerApps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { primary: '#0078D4', dark: '#0F172A', accent: '#00B4D8', light: '#F8FAFC' }
+          },
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+    .hero-bg { background: linear-gradient(135deg, #0F172A 0%, #0F2D5A 60%, #0F172A 100%); }
+    .badge { display: inline-flex; align-items: center; background: #F5F3FF; color: #7C3AED; border: 1px solid #DDD6FE; border-radius: 999px; padding: 4px 12px; font-size: 0.78rem; font-weight: 600; }
+    input[type="text"], input[type="email"] {
+      width: 100%; padding: 14px 16px; border: 2px solid #E2E8F0;
+      border-radius: 10px; font-size: 0.95rem; font-family: inherit;
+      transition: border-color 0.2s; outline: none;
+    }
+    input[type="text"]:focus, input[type="email"]:focus { border-color: #0078D4; }
+    .submit-btn {
+      width: 100%; background: #0078D4; color: white; font-weight: 700;
+      font-size: 1rem; padding: 15px; border: none; border-radius: 10px;
+      cursor: pointer; transition: background 0.2s; font-family: inherit;
+    }
+    .submit-btn:hover { background: #005EA6; }
+    .prompt-preview {
+      background: #0F172A; border-radius: 10px; padding: 14px 16px;
+      border-left: 3px solid #7C3AED;
+    }
+    /* Form error/success states */
+    .form-success { display: none; }
+    .form-error { display: none; color: #DC2626; font-size: 0.85rem; margin-top: 8px; }
+  </style>
+</head>
+<body class="bg-brand-light min-h-screen">
+
+  <!-- Header -->
+  <header class="hero-bg py-5">
+    <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center gap-2 text-white font-extrabold text-lg no-underline">
+        <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M13 2L4 13H11L9 20L18 9H11L13 2Z" fill="#0078D4" stroke="#0078D4" stroke-width="1.2" stroke-linejoin="round"/>
+        </svg>
+        NextGen <span class="text-brand-primary ml-1">PowerApps</span>
+      </a>
+      <a href="../index.html" class="text-slate-300 text-sm hover:text-white transition-colors">← Back to course</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero-bg pb-16 pt-10">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+
+        <!-- Left: copy -->
+        <div>
+          <span class="badge mb-4 inline-block">✦ Free Resource</span>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">
+            The Power Platform<br />
+            <span class="text-brand-accent">AI Starter Kit</span>
+          </h1>
+          <p class="text-slate-300 text-base leading-relaxed mb-6">
+            10 Copilot prompts that actually work — tested on real client projects by a Senior Power Platform Developer.
+            Stop guessing what to type. Start shipping faster.
+          </p>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-center gap-2 text-slate-200 text-sm">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2.5 8L6 11.5L13.5 4" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Prompts for Power Apps, Power Automate, Dataverse, and Azure OpenAI
+            </li>
+            <li class="flex items-center gap-2 text-slate-200 text-sm">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2.5 8L6 11.5L13.5 4" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Each prompt includes what it's for and how to adapt it
+            </li>
+            <li class="flex items-center gap-2 text-slate-200 text-sm">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2.5 8L6 11.5L13.5 4" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Includes the one prompt most developers get completely wrong
+            </li>
+          </ul>
+          <!-- Prompt preview teaser -->
+          <div class="prompt-preview">
+            <p class="text-xs font-bold text-violet-400 uppercase tracking-wider mb-2">Preview — Prompt #3</p>
+            <p class="text-slate-300 text-sm leading-relaxed italic">"I have a Gallery connected to [data source] and I want to filter by [field]. Write a delegation-safe formula that works for large datasets and explain why delegation applies here..."</p>
+          </div>
+        </div>
+
+        <!-- Right: opt-in form -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+          <h2 class="text-xl font-extrabold text-brand-dark mb-1">Get instant access — free</h2>
+          <p class="text-slate-500 text-sm mb-6">Drop your email below. No spam. Unsubscribe any time.</p>
+
+          <!-- FORM: Replace YOURFORMID with your Formspree form ID -->
+          <!-- Sign up at formspree.io, create a form, copy the ID from the endpoint URL -->
+          <form
+            id="optin-form"
+            action="https://formspree.io/f/YOURFORMID"
+            method="POST"
+          >
+            <div class="space-y-4">
+              <div>
+                <label for="first-name" class="block text-sm font-semibold text-brand-dark mb-1.5">First name</label>
+                <input type="text" id="first-name" name="first_name" placeholder="Jerome" required autocomplete="given-name" />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-semibold text-brand-dark mb-1.5">Email address</label>
+                <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email" />
+                <!-- Hidden field to tag the source -->
+                <input type="hidden" name="_subject" value="New lead: Power Platform AI Starter Kit" />
+                <input type="hidden" name="source" value="email-list-build/index.html" />
+                <!-- Redirect to thank-you page after submit -->
+                <input type="hidden" name="_next" value="thank-you.html" />
+              </div>
+              <button type="submit" class="submit-btn">
+                Send Me the Starter Kit →
+              </button>
+              <p class="text-xs text-center text-slate-400">
+                🔒 No spam. Unsubscribe any time. Your email is safe.
+              </p>
+            </div>
+          </form>
+
+          <div class="form-success text-center py-4" id="form-success">
+            <div class="text-4xl mb-3">🎉</div>
+            <p class="font-bold text-brand-dark">You're in!</p>
+            <p class="text-slate-500 text-sm mt-1">Check your inbox — the Starter Kit is on its way.</p>
+            <a href="lead-magnet.html" class="inline-block mt-4 bg-brand-primary text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-blue-700 transition-colors">
+              View it now →
+            </a>
+          </div>
+
+          <!-- Social proof -->
+          <div class="mt-6 pt-5 border-t border-slate-100 flex items-center gap-3">
+            <div class="flex -space-x-2">
+              <div class="w-8 h-8 rounded-full bg-brand-primary border-2 border-white flex items-center justify-center text-white text-xs font-bold">S</div>
+              <div class="w-8 h-8 rounded-full bg-slate-600 border-2 border-white flex items-center justify-center text-white text-xs font-bold">D</div>
+              <div class="w-8 h-8 rounded-full bg-brand-accent border-2 border-white flex items-center justify-center text-white text-xs font-bold">P</div>
+            </div>
+            <p class="text-slate-500 text-xs">Joined by <strong class="text-brand-dark">500+ Power Platform developers</strong></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- What's inside -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-2xl font-extrabold text-brand-dark text-center mb-10">What's inside the Starter Kit</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+
+        <div class="flex items-start gap-4 p-5 bg-brand-light rounded-xl border border-slate-100">
+          <span class="text-2xl flex-shrink-0" aria-hidden="true">🏗️</span>
+          <div>
+            <p class="font-semibold text-sm text-brand-dark mb-1">Canvas App scaffolding</p>
+            <p class="text-slate-500 text-xs leading-relaxed">The exact prompt to generate a working multi-screen app structure — and what to edit before you trust it.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-5 bg-brand-light rounded-xl border border-slate-100">
+          <span class="text-2xl flex-shrink-0" aria-hidden="true">⚡</span>
+          <div>
+            <p class="font-semibold text-sm text-brand-dark mb-1">Power Automate flow generation</p>
+            <p class="text-slate-500 text-xs leading-relaxed">Describe your flow in plain English and get production-ready logic with error handling included.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-5 bg-brand-light rounded-xl border border-slate-100">
+          <span class="text-2xl flex-shrink-0" aria-hidden="true">🗄️</span>
+          <div>
+            <p class="font-semibold text-sm text-brand-dark mb-1">Dataverse table design</p>
+            <p class="text-slate-500 text-xs leading-relaxed">Prompt Copilot to design your data model — tables, columns, relationships — before you build a single screen.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-5 bg-brand-light rounded-xl border border-slate-100">
+          <span class="text-2xl flex-shrink-0" aria-hidden="true">🤖</span>
+          <div>
+            <p class="font-semibold text-sm text-brand-dark mb-1">Azure OpenAI integration</p>
+            <p class="text-slate-500 text-xs leading-relaxed">The custom connector prompt that connects Power Automate to GPT-4 — copy, adapt, deploy.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-5 bg-brand-light rounded-xl border border-slate-100">
+          <span class="text-2xl flex-shrink-0" aria-hidden="true">🔍</span>
+          <div>
+            <p class="font-semibold text-sm text-brand-dark mb-1">Formula debugging</p>
+            <p class="text-slate-500 text-xs leading-relaxed">How to ask Copilot to diagnose broken formulas — and why most people phrase this wrong.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-5 bg-violet-50 rounded-xl border border-violet-200">
+          <span class="text-2xl flex-shrink-0" aria-hidden="true">✦</span>
+          <div>
+            <p class="font-semibold text-sm text-brand-dark mb-1">+ 5 more prompts</p>
+            <p class="text-slate-500 text-xs leading-relaxed">AI Builder model selection, solution architecture, client documentation, and two more that developers keep asking for.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- About Jerome -->
+  <section class="py-12 bg-brand-light border-t border-slate-200">
+    <div class="max-w-2xl mx-auto px-4 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+      <!-- PHOTO PLACEHOLDER: Replace with <img> when you have a photo -->
+      <div class="w-20 h-20 rounded-full bg-brand-primary flex-shrink-0 flex items-center justify-center text-white text-2xl font-black border-4 border-blue-100 shadow" aria-label="Jerome Dawn">JD</div>
+      <div>
+        <p class="font-bold text-brand-dark">Jerome Dawn</p>
+        <p class="text-brand-primary text-sm font-semibold mb-2">Senior Power Platform Developer | Founder, NextGen PowerApps</p>
+        <p class="text-slate-600 text-sm leading-relaxed">These prompts are pulled from real client engagements — not documentation. Jerome uses every one of these on production projects across Fortune 500 companies in finance, energy, and healthcare.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-brand-dark py-8 text-center">
+    <p class="text-slate-400 text-sm">&copy; 2026 NextGen PowerApps · <a href="mailto:jerome@nextgenpowerapps.com" class="hover:text-white transition-colors">jerome@nextgenpowerapps.com</a></p>
+    <p class="text-slate-600 text-xs mt-1">Built on Microsoft Power Platform + AI ⚡</p>
+  </footer>
+
+</body>
+</html>
