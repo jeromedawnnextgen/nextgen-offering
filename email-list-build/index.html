@@ -103,13 +103,45 @@
           <h2 class="text-xl font-extrabold text-brand-dark mb-1">Get instant access — free</h2>
           <p class="text-slate-500 text-sm mb-6">Drop your email below. No spam. Unsubscribe any time.</p>
 
-          <!-- FORM: Replace YOURFORMID with your Formspree form ID -->
-          <!-- Sign up at formspree.io, create a form, copy the ID from the endpoint URL -->
-          <form
-            id="optin-form"
-            action="https://formspree.io/f/YOURFORMID"
-            method="POST"
-          >
+          <!-- WEBHOOK: Replace with your Logic Apps HTTP trigger URL -->
+          <script>
+            var WEBHOOK_URL = 'https://prod-24.eastus.logic.azure.com:443/workflows/53bea1cc5e7642288a9e685aedafc590/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=XpejR2Gsn6Q_j2xE9IQuuVV7S488E6p_9oACHODbK1M';
+            var THANK_YOU_URL = 'https://ambitious-beach-0ef305710.4.azurestaticapps.net/email-list-build/thank-you.html';
+
+            document.addEventListener('DOMContentLoaded', function() {
+              document.getElementById('optin-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var btn = this.querySelector('button[type="submit"]');
+                var errorEl = document.getElementById('form-error');
+                btn.disabled = true;
+                btn.textContent = 'Sending…';
+                errorEl.style.display = 'none';
+
+                fetch(WEBHOOK_URL, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    first_name: document.getElementById('first-name').value,
+                    email: document.getElementById('email').value
+                  })
+                })
+                .then(function(res) {
+                  if (res.ok || res.status === 202) {
+                    window.location.href = THANK_YOU_URL;
+                  } else {
+                    throw new Error('Request failed');
+                  }
+                })
+                .catch(function() {
+                  errorEl.style.display = 'block';
+                  btn.disabled = false;
+                  btn.textContent = 'Send Me the Starter Kit →';
+                });
+              });
+            });
+          </script>
+
+          <form id="optin-form" novalidate>
             <div class="space-y-4">
               <div>
                 <label for="first-name" class="block text-sm font-semibold text-brand-dark mb-1.5">First name</label>
@@ -118,15 +150,11 @@
               <div>
                 <label for="email" class="block text-sm font-semibold text-brand-dark mb-1.5">Email address</label>
                 <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email" />
-                <!-- Hidden field to tag the source -->
-                <input type="hidden" name="_subject" value="New lead: Power Platform AI Starter Kit" />
-                <input type="hidden" name="source" value="email-list-build/index.html" />
-                <!-- Redirect to thank-you page after submit -->
-                <input type="hidden" name="_next" value="thank-you.html" />
               </div>
               <button type="submit" class="submit-btn">
                 Send Me the Starter Kit →
               </button>
+              <p id="form-error" class="form-error text-center">Something went wrong — please try again.</p>
               <p class="text-xs text-center text-slate-400">
                 🔒 No spam. Unsubscribe any time. Your email is safe.
               </p>
