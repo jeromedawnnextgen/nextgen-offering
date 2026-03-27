@@ -11,9 +11,9 @@ Deployed on Azure Static Web Apps via GitHub Actions.
 | URL | File | Purpose |
 |-----|------|---------|
 | https://ambitious-beach-0ef305710.4.azurestaticapps.net | `index.html` | Course sales page — hero, curriculum, pricing, enroll |
-| https://ambitious-beach-0ef305710.4.azurestaticapps.net/email-list-build/ | `email-list-build/index.html` | Opt-in landing page — collects name + email for the lead magnet |
+| https://ambitious-beach-0ef305710.4.azurestaticapps.net/email-list-build/home.html | `email-list-build/home.html` | Opt-in landing page — collects name + email for the lead magnet |
 | https://ambitious-beach-0ef305710.4.azurestaticapps.net/email-list-build/thank-you.html | `email-list-build/thank-you.html` | Post-submit confirmation page — shown after email is captured |
-| https://ambitious-beach-0ef305710.4.azurestaticapps.net/email-list-build/lead-magnet.html | `email-list-build/lead-magnet.html` | The full Power Platform AI Starter Kit — 12 prompts + bonus, copy buttons, download as ZIP |
+| https://ambitious-beach-0ef305710.4.azurestaticapps.net/email-list-build/starter-kit.html | `email-list-build/starter-kit.html` | The full Power Platform AI Starter Kit — 12 prompts + bonus, copy buttons, download as ZIP |
 
 ---
 
@@ -27,7 +27,7 @@ Enters name + email → submits form
 JS POSTs to Logic Apps HTTP webhook (eastus)
         ↓
 Logic App fires → sends email via Office 365 Outlook
-Email contains link to /email-list-build/lead-magnet.html
+Email contains link to /email-list-build/starter-kit.html
         ↓
 Browser redirects to /email-list-build/thank-you.html
 Thank-you page shows direct link to lead magnet
