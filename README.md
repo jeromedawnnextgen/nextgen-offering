@@ -10,10 +10,10 @@ Deployed on Azure Static Web Apps via GitHub Actions.
 
 | URL | File | Purpose |
 |-----|------|---------|
-| `/` | `index.html` | Course sales page — hero, curriculum, pricing, enroll |
-| `/email-list-build/` | `email-list-build/index.html` | Opt-in landing page — collects name + email for the lead magnet |
-| `/email-list-build/thank-you.html` | `email-list-build/thank-you.html` | Post-submit confirmation page — shown after email is captured |
-| `/email-list-build/lead-magnet.html` | `email-list-build/lead-magnet.html` | The full Power Platform AI Starter Kit — 12 prompts + bonus, copy buttons, download as ZIP |
+| https://ambitious-beach-0ef305710.4.azurestaticapps.net | `index.html` | Course sales page — hero, curriculum, pricing, enroll |
+| https://ambitious-beach-0ef305710.4.azurestaticapps.net/email-list-build/ | `email-list-build/index.html` | Opt-in landing page — collects name + email for the lead magnet |
+| https://ambitious-beach-0ef305710.4.azurestaticapps.net/email-list-build/thank-you.html | `email-list-build/thank-you.html` | Post-submit confirmation page — shown after email is captured |
+| https://ambitious-beach-0ef305710.4.azurestaticapps.net/email-list-build/lead-magnet.html | `email-list-build/lead-magnet.html` | The full Power Platform AI Starter Kit — 12 prompts + bonus, copy buttons, download as ZIP |
 
 ---
 
